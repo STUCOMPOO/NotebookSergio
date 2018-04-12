@@ -20,6 +20,7 @@ public class FileUtils {
     private String[] arrayString = null;
     private Map<String, String[]> traductions;          //traducciones
     private String languageAux, yearAux, monthAux;
+    private String[] months;
 
 
     //string to test
@@ -52,7 +53,6 @@ public class FileUtils {
                 //guardamos el mes y año que se indican en el archivo de peticions
                 if (i == 0) yearAux = stringList.get(i);
                 if (i == 1) monthAux = stringList.get(i);
-                System.out.println(monthAux);
                 //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
                 if (i == 3) languageAux = stringList.get(i);
             }
@@ -115,7 +115,7 @@ public class FileUtils {
             bufferedReader = new BufferedReader(fr);
 
             while ((currentLine = bufferedReader.readLine()) != null) {
-                if (currentLine.isEmpty()) continue;
+                //if (currentLine.isEmpty()) continue;
 
                 System.out.println(currentLine);
 
@@ -142,10 +142,28 @@ public class FileUtils {
 
         }
 
+        //System.out.println(monthAux);
+
     }
 
-    public void getMonthByNum(int num){
+    public String getMonthByNum(){
+        String month = "";
 
+        String[] months = {""};
+
+        for (Map.Entry<String, String[]> e : traductions.entrySet()) {
+            //obtenemos todos los meses
+           if(e.getKey().equals("004")){
+               months = e.getValue();
+           }
+        }
+
+        month = months[Integer.valueOf(monthAux) - 1];
+
+        System.out.println(month);
+
+
+        return month;
     }
 
 
