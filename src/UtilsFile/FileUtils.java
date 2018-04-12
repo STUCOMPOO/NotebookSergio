@@ -6,6 +6,7 @@
 package UtilsFile;
 
 import entities.Request;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author alu2015018
  */
 public class FileUtils {
@@ -67,7 +67,7 @@ public class FileUtils {
     }
 
     //funcion para obtener el fichero del idioma especificado
-    private File readLanguageFile(String path, String language) {
+    public File readLanguageFile(String path, String language) {
         File languageFile = null,
                 filesPath = new File(path);
 
@@ -76,12 +76,20 @@ public class FileUtils {
 
         //leemos todos los archvios
         for (File fileList1 : fileList) {
+            //si es un archivo entramos
             if (fileList1.isFile()) {
-                System.out.println(fileList1.getName());
-                String[] fileName = fileList1.getName().split(".");
-                if (fileName[1].equals(language)) {
-                    languageFile = fileList1;
+                //si el nombre del archivo empieza por internacional...
+                if (fileList1.getName().startsWith("internacional")) {
+                    //System.out.println(fileList1.getName());
+                    //hacemos un split por el punto de extension, para ello hemos de poner el punto con dos contra barras,
+                    //si no estariamos diciendo con un punto, que haga split en cualquier caracter.
+                    String[] fileName = fileList1.getName().split("\\.");
+                    if (fileName[1].equals(language)) {
+                        //System.out.println(fileName[1]);
+                        languageFile = fileList1;
+                    }
                 }
+
             }
         }
 

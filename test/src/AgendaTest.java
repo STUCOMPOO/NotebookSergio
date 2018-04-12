@@ -5,6 +5,7 @@
  */
 
 import UtilsFile.FileUtils;
+import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetException;
 import entities.Config;
 import java.io.File;
 import java.util.ArrayList;
@@ -41,9 +42,11 @@ public class AgendaTest {
 
     @Before
     public void setUp() {
-        FILE_PATH = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //FILE_PATH = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH="C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
         fileUtils = new FileUtils();
-        directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        //directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         configList = new ArrayList<>();
     }
 
@@ -57,6 +60,7 @@ public class AgendaTest {
     @Test
     public void readConfig() {
         configList = fileUtils.readFile(FILE_PATH);
+        fileUtils.readLanguageFile(directoryPath, "CAT");
 
     }
 }
