@@ -8,6 +8,7 @@ import UtilsFile.FileUtils;
 import entities.Config;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,14 +42,15 @@ public class AgendaTest {
     List<String> configList;
     File fileAux;
     Map<String, String[]> mapAux;
+    Config configuration;
 
     @Before
     public void setUp() {
-        FILE_PATH = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        //FILE_PATH="C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //FILE_PATH = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH="C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
         fileUtils = new FileUtils();
-        directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
-        //directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        //directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         configList = new ArrayList<>();
         mapAux = new HashMap<>();
     }
@@ -59,26 +61,14 @@ public class AgendaTest {
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
-    //
     @Test
-    public void readConfig() {
+    public void readConfigAndGetLanguageFileByLangSpecified() {
         configList = fileUtils.readFileByPath(FILE_PATH);
         System.out.println("\n");
-    }
-
-    @Test
-    public void readLanguageFileAndGetMapWithTraductions(){
-
         fileAux = fileUtils.readLanguageFile(directoryPath);
-        mapAux = fileUtils.readFileByFile(fileAux);
+        fileUtils.readFileByFile(fileAux);
 
-        //recorremos el map para ver si se han añadido correctmante las traducciones
-        for (Map.Entry<String, String[]> e : mapAux.entrySet()) {
-            //al tener un array de string, tenemos que recorrer el array de nuevo
-            System.out.println(e.getKey());
-            for (String b : e.getValue()) {
-                System.out.println(b);
-            }
-        }
+
     }
+
 }

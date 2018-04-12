@@ -5,10 +5,7 @@
  */
 package UtilsFile;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.KeyStore;
 import java.util.*;
 
@@ -22,14 +19,7 @@ public class FileUtils {
     private String currentLine;
     private String[] arrayString = null;
     private Map<String, String[]> traductions;          //traducciones
-    private String[] nombreAgenda,                      //1
-            nombreDias,                                 //2
-            mascaraDias,                                //3
-            nombreMeses,                                //4
-            nombresCalendario,                          //5
-            generatedBy,                                //6
-            state,                                      //7
-            error;                                      //8
+    private String languageAux, yearAux, monthAux;
 
 
     //string to test
@@ -37,8 +27,6 @@ public class FileUtils {
 
     }
 
-
-    private String languageAux;
 
     //funciton returns string List with all the config information
     public List<String> readFileByPath(String filePath) {
@@ -61,6 +49,10 @@ public class FileUtils {
             for (int i = 0; i < stringList.size(); i++) {
 
                 System.out.println(stringList.get(i));
+                //guardamos el mes y año que se indican en el archivo de peticions
+                if (i == 0) yearAux = stringList.get(i);
+                if (i == 1) monthAux = stringList.get(i);
+                System.out.println(monthAux);
                 //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
                 if (i == 3) languageAux = stringList.get(i);
             }
@@ -83,7 +75,6 @@ public class FileUtils {
     public File readLanguageFile(String path) {
 
         //System.out.println(languageAux);
-
         File languageFile = null,
                 filesPath = new File(path);
 
@@ -114,16 +105,18 @@ public class FileUtils {
     }
 
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
-    public Map readFileByFile(File file){
+    public void readFileByFile(File file) {
         //inicializamos el array que contiene las palabras
         traductions = new HashMap<>();
 
-        try{
 
+        try {
             fr = new FileReader(file);
             bufferedReader = new BufferedReader(fr);
 
-            while((currentLine = bufferedReader.readLine()) != null){
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                if (currentLine.isEmpty()) continue;
+
                 System.out.println(currentLine);
 
                 String[] line = currentLine.split(";");
@@ -131,20 +124,29 @@ public class FileUtils {
                 //System.out.println(line[1]);
                 traductions.put(line[0], line[1].split(","));
 
+
             }
 
-//            for (Map.Entry<String, String[]> set : traductions.entrySet()){
-//                System.out.println(set.getKey());
-//            }
+            System.out.println("\n");
 
-        }catch(Exception e){
+            //recorremos el map para ver si se han añadido correctmante las traducciones
+            /*for (Map.Entry<String, String[]> e : traductions.entrySet()) {
+                //al tener un array de string, tenemos que recorrer el array de nuevo
+                System.out.println(e.getKey());
+                for (String b : e.getValue()) {
+                    System.out.println(b);
+                }
+            }*/
+
+        } catch (Exception e) {
 
         }
 
-        return traductions;
     }
 
+    public void getMonthByNum(int num){
 
+    }
 
 
 }
