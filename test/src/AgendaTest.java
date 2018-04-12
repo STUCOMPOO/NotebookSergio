@@ -62,8 +62,13 @@ public class AgendaTest {
     //
     @Test
     public void readConfig() {
-
         configList = fileUtils.readFileByPath(FILE_PATH);
+        System.out.println("\n");
+    }
+
+    @Test
+    public void readLanguageFileAndGetMapWithTraductions(){
+
         fileAux = fileUtils.readLanguageFile(directoryPath);
         mapAux = fileUtils.readFileByFile(fileAux);
 
@@ -75,6 +80,5 @@ public class AgendaTest {
                 System.out.println(b);
             }
         }
-
     }
 }

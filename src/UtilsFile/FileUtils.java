@@ -133,8 +133,6 @@ public class FileUtils {
 
             }
 
-             System.out.println("hola");
-
 //            for (Map.Entry<String, String[]> set : traductions.entrySet()){
 //                System.out.println(set.getKey());
 //            }
