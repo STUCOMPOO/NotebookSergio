@@ -113,8 +113,8 @@ public class FileUtils {
         return languageFile;
     }
 
-    //funcion para leer un archvio a partir de una variable del tipo File
-    public void readFileByFile(File file){
+    //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
+    public Map readFileByFile(File file){
         //inicializamos el array que contiene las palabras
         traductions = new HashMap<>();
 
@@ -133,10 +133,17 @@ public class FileUtils {
 
             }
 
+             System.out.println("hola");
+
+//            for (Map.Entry<String, String[]> set : traductions.entrySet()){
+//                System.out.println(set.getKey());
+//            }
 
         }catch(Exception e){
 
         }
+
+        return traductions;
     }
 
 
