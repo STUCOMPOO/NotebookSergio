@@ -58,7 +58,7 @@ public class AgendaTest {
     @Test
     public void readConfig() {
         configList = fileUtils.readFileByPath(FILE_PATH);
-        fileAux = fileUtils.readLanguageFile(directoryPath, "ENG");
+        fileAux = fileUtils.readLanguageFile(directoryPath);
         fileUtils.readFileByFile(fileAux);
 
 

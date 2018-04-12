@@ -5,15 +5,12 @@
  */
 package UtilsFile;
 
-import entities.Request;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.security.KeyStore;
+import java.util.*;
 
 /**
  * @author alu2015018
@@ -24,6 +21,15 @@ public class FileUtils {
     private FileReader fr = null;
     private String currentLine;
     private String[] arrayString = null;
+    private Map<String, String[]> traductions;          //traducciones
+    private String[] nombreAgenda,                      //1
+            nombreDias,                                 //2
+            mascaraDias,                                //3
+            nombreMeses,                                //4
+            nombresCalendario,                          //5
+            generatedBy,                                //6
+            state,                                      //7
+            error;                                      //8
 
 
     //string to test
@@ -31,22 +37,8 @@ public class FileUtils {
 
     }
 
-    //funcion para leer un archvio a partir de una variable del tipo File
-    public void readFileByFile(File file){
-        try{
 
-            fr = new FileReader(file);
-            bufferedReader = new BufferedReader(fr);
-
-            while((currentLine = bufferedReader.readLine()) != null){
-                System.out.println(currentLine);
-
-            }
-
-        }catch(Exception e){
-
-        }
-    }
+    private String languageAux;
 
     //funciton returns string List with all the config information
     public List<String> readFileByPath(String filePath) {
@@ -69,6 +61,8 @@ public class FileUtils {
             for (int i = 0; i < stringList.size(); i++) {
 
                 System.out.println(stringList.get(i));
+                //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
+                if (i == 3) languageAux = stringList.get(i);
             }
 
         } catch (Exception e) {
@@ -86,7 +80,10 @@ public class FileUtils {
     }
 
     //funcion para obtener el fichero del idioma especificado
-    public File readLanguageFile(String path, String language) {
+    public File readLanguageFile(String path) {
+
+        //System.out.println(languageAux);
+
         File languageFile = null,
                 filesPath = new File(path);
 
@@ -103,7 +100,8 @@ public class FileUtils {
                     //hacemos un split por el punto de extension, para ello hemos de poner el punto con dos contra barras,
                     //si no estariamos diciendo con un punto, que haga split en cualquier caracter.
                     String[] fileName = fileList1.getName().split("\\.");
-                    if (fileName[1].equals(language)) {
+                    //languageAux es el lenguaje de salida que hemos obtenido previamente, esto nos selcciona el archivo internacional que hemos pedido
+                    if (fileName[1].equals(languageAux)) {
                         //System.out.println(fileName[1]);
                         languageFile = fileList1;
                     }
@@ -115,6 +113,31 @@ public class FileUtils {
         return languageFile;
     }
 
+    //funcion para leer un archvio a partir de una variable del tipo File
+    public void readFileByFile(File file){
+        //inicializamos el array que contiene las palabras
+        traductions = new HashMap<>();
+
+        try{
+
+            fr = new FileReader(file);
+            bufferedReader = new BufferedReader(fr);
+
+            while((currentLine = bufferedReader.readLine()) != null){
+                System.out.println(currentLine);
+
+                String[] line = currentLine.split(";");
+
+                //System.out.println(line[1]);
+                traductions.put(line[0], line[1].split(","));
+
+            }
+
+
+        }catch(Exception e){
+
+        }
+    }
 
 
 
