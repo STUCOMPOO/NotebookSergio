@@ -5,7 +5,6 @@
  */
 
 import UtilsFile.FileUtils;
-import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetException;
 import entities.Config;
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -38,7 +36,7 @@ public class AgendaTest {
     FileUtils fileUtils;
     String directoryPath;
     List<String> configList;
-    Config config;
+    File fileAux;
 
     @Before
     public void setUp() {
@@ -59,8 +57,10 @@ public class AgendaTest {
     //
     @Test
     public void readConfig() {
-        configList = fileUtils.readFile(FILE_PATH);
-        fileUtils.readLanguageFile(directoryPath, "CAT");
+        configList = fileUtils.readFileByPath(FILE_PATH);
+        fileAux = fileUtils.readLanguageFile(directoryPath, "ENG");
+        fileUtils.readFileByFile(fileAux);
+
 
     }
 }

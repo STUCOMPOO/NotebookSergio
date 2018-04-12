@@ -20,24 +20,43 @@ import java.util.List;
  */
 public class FileUtils {
 
+    private BufferedReader bufferedReader = null;
+    private FileReader fr = null;
+    private String currentLine;
+    private String[] arrayString = null;
+
+
     //string to test
     public FileUtils() {
 
     }
 
+    //funcion para leer un archvio a partir de una variable del tipo File
+    public void readFileByFile(File file){
+        try{
+
+            fr = new FileReader(file);
+            bufferedReader = new BufferedReader(fr);
+
+            while((currentLine = bufferedReader.readLine()) != null){
+                System.out.println(currentLine);
+
+            }
+
+        }catch(Exception e){
+
+        }
+    }
+
     //funciton returns string List with all the config information
-    public List<String> readFile(String filePath) {
-        BufferedReader bufferedReader = null;
-        FileReader fr = null;
+    public List<String> readFileByPath(String filePath) {
+
         List<String> stringList = new ArrayList<>();
 
         try {
 
             fr = new FileReader(filePath);
             bufferedReader = new BufferedReader(fr);
-
-            String currentLine;
-            String[] arrayString = null;
 
             while ((currentLine = bufferedReader.readLine()) != null) {
                 System.out.println(currentLine);
@@ -95,5 +114,9 @@ public class FileUtils {
 
         return languageFile;
     }
+
+
+
+
 
 }
