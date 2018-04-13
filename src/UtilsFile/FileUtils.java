@@ -72,7 +72,7 @@ public class FileUtils {
     }
 
     //funcion para obtener el fichero del idioma especificado
-    public File readLanguageFile(String path) {
+    public File getLanguageFile(String path) {
 
         //System.out.println(languageAux);
         File languageFile = null,
@@ -140,14 +140,21 @@ public class FileUtils {
 
         } catch (Exception e) {
 
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException ignored) {
+
+            }
         }
+
 
         //System.out.println(monthAux);
 
     }
 
     //funcion con la cual obtenemos el nombre del mes a partir del numero especificado en config.txt
-    public String getMonthByNum(){
+    public String getMonthByNum() {
         String month = "";
 
         String[] months = {""};
@@ -155,9 +162,9 @@ public class FileUtils {
         //recorremos el map en busca del array de string que contiene los meses, situado en la posicion 004
         for (Map.Entry<String, String[]> e : traductions.entrySet()) {
             //obtenemos todos los meses
-           if(e.getKey().equals("004")){
-               months = e.getValue();
-           }
+            if (e.getKey().equals("004")) {
+                months = e.getValue();
+            }
         }
 
         //obtenemos el nombre gracias al numero del mes localizado en config.txt
@@ -167,6 +174,10 @@ public class FileUtils {
 
 
         return month;
+    }
+
+    public void generateHTML(){
+
     }
 
 

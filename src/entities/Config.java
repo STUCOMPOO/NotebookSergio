@@ -21,18 +21,22 @@ public class Config {
 
     // public List<Config> configList = new ArrayList<>();
 
-    public Config() {
-    }
-
-    public Config(int year, int month, String inputlanguage, String outputlanguage) {
+    /*public Config(int year, int month, String inputlanguage, String outputlanguage) {
         this.year = year;
         this.month = month;
         this.inputlanguage = inputlanguage;
         this.outputlanguage = outputlanguage;
+    }*/
+
+    public Config(List<String> configData){
+        this.year = Integer.valueOf(configData.get(0));
+        this.month = Integer.valueOf(configData.get(1));
+        this.inputlanguage = configData.get(2);
+        this.outputlanguage = configData.get(3);
     }
 
-    public Config saveConfigFromFile(Config config, List<String> configData) {
-
+    /*public Config saveConfigFromFile(List<String> configData) {
+        Config config;
         //año
         int year = Integer.valueOf(configData.get(0));
         //mes
@@ -48,7 +52,7 @@ public class Config {
         //configList.add(config);
 
         return config;
-    }
+    }*/
 
     /*public List<Config> getConfigList() {
         if (configList.isEmpty()) {

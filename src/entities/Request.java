@@ -23,6 +23,7 @@ public class Request {
 
     //array list para guardar peticiones
     private List<Request> requestList = new ArrayList<>();
+    private Request request;
 
     public Request() {
     }
@@ -36,7 +37,7 @@ public class Request {
         this.hours = hours;
     }
 
-    public void saveRequestFromFile(Request request, List<String> requestList) {
+    public void saveRequestFromFile(List<String> requestList) {
 
         //estado de la sala
         String name = requestList.get(0);

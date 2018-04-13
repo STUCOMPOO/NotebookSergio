@@ -8,12 +8,12 @@ import UtilsFile.FileUtils;
 import entities.Config;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entities.Request;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,18 +36,18 @@ public class AgendaTest {
     public static void tearDownClass() {
     }
 
-    String FILE_PATH;
+    String FILE_PATH_PETICIONES, FILE_PATH_CONFIG;
     FileUtils fileUtils;
     String directoryPath;
     List<String> configList;
     File fileAux;
     Map<String, String[]> mapAux;
-    Config configuration;
+    Request request;
 
     @Before
     public void setUp() {
-        //FILE_PATH = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        FILE_PATH="C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
         fileUtils = new FileUtils();
         //directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
@@ -63,12 +63,17 @@ public class AgendaTest {
     // The methods must be annotated with annotation @Test. For example:
     @Test
     public void readConfigAndGetLanguageFileByLangSpecified() {
-        configList = fileUtils.readFileByPath(FILE_PATH);
+        configList = fileUtils.readFileByPath(FILE_PATH_CONFIG);
         System.out.println("\n");
-        fileAux = fileUtils.readLanguageFile(directoryPath);
+        fileAux = fileUtils.getLanguageFile(directoryPath);
         fileUtils.readFileByFile(fileAux);
 
-        String month = fileUtils.getMonthByNum();
+        fileUtils.getMonthByNum();
+    }
+
+    @Test
+    public void readPeticionsAndSaveItInList(){
+
     }
 
 }
