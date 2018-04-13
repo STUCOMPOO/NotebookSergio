@@ -146,11 +146,13 @@ public class FileUtils {
 
     }
 
+    //funcion con la cual obtenemos el nombre del mes a partir del numero especificado en config.txt
     public String getMonthByNum(){
         String month = "";
 
         String[] months = {""};
 
+        //recorremos el map en busca del array de string que contiene los meses, situado en la posicion 004
         for (Map.Entry<String, String[]> e : traductions.entrySet()) {
             //obtenemos todos los meses
            if(e.getKey().equals("004")){
@@ -158,9 +160,10 @@ public class FileUtils {
            }
         }
 
+        //obtenemos el nombre gracias al numero del mes localizado en config.txt
         month = months[Integer.valueOf(monthAux) - 1];
 
-        System.out.println(month);
+        System.out.println(month + " de " + yearAux);
 
 
         return month;
