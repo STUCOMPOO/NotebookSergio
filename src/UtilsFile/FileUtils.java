@@ -46,16 +46,30 @@ public class FileUtils {
                 stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
             }
 
-            //comprobacion para ver si se han añadido correctamente los valores
-            for (int i = 0; i < stringList.size(); i++) {
+            //si el archivo pasado es config
+            if (filePath.contains("config.txt")) {
+//comprobacion para ver si se han añadido correctamente los valores
+                for (int i = 0; i < stringList.size(); i++) {
 
-                System.out.println(stringList.get(i));
-                //guardamos el mes y año que se indican en el archivo de peticions
-                if (i == 0) yearAux = stringList.get(i);
-                if (i == 1) monthAux = stringList.get(i);
-                //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
-                if (i == 3) languageAux = stringList.get(i);
+                    System.out.println(stringList.get(i));
+                    //guardamos el mes y año que se indican en el archivo de peticions
+                    if (i == 0) yearAux = stringList.get(i);
+                    if (i == 1) monthAux = stringList.get(i);
+                    //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
+                    if (i == 3) languageAux = stringList.get(i);
+                }
+
+                System.out.println("config");
+                //si el archivo pasado es el de peticiones
+            } else if (filePath.contains("peticions.txt")) {
+
+                for (int i = 0; i < stringList.size(); i++) {
+                    System.out.println(stringList.get(i));
+                }
+
+                System.out.println("peticiones");
             }
+
 
         } catch (Exception e) {
 
@@ -72,7 +86,7 @@ public class FileUtils {
     }
 
     //funcion para obtener el fichero del idioma especificado
-    public File getLanguageFile(String path) {
+    public File getLanguageFile(String language, String path) {
 
         //System.out.println(languageAux);
         File languageFile = null,
@@ -92,7 +106,7 @@ public class FileUtils {
                     //si no estariamos diciendo con un punto, que haga split en cualquier caracter.
                     String[] fileName = fileList1.getName().split("\\.");
                     //languageAux es el lenguaje de salida que hemos obtenido previamente, esto nos selcciona el archivo internacional que hemos pedido
-                    if (fileName[1].equals(languageAux)) {
+                    if (fileName[1].equals(language)) {
                         //System.out.println(fileName[1]);
                         languageFile = fileList1;
                     }
@@ -104,8 +118,12 @@ public class FileUtils {
         return languageFile;
     }
 
+    public void readPeticionsFileByFile(File file) {
+
+    }
+
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
-    public void readFileByFile(File file) {
+    public Map getTraductionsFromFile(File file) {
         //inicializamos el array que contiene las palabras
         traductions = new HashMap<>();
 
@@ -146,15 +164,19 @@ public class FileUtils {
             } catch (IOException ignored) {
 
             }
+
         }
 
 
         //System.out.println(monthAux);
 
+
+        return traductions;
+
     }
 
     //funcion con la cual obtenemos el nombre del mes a partir del numero especificado en config.txt
-    public String getMonthByNum() {
+    public String getMonthByNum(int monthNum, int yearNum) {
         String month = "";
 
         String[] months = {""};
@@ -168,15 +190,15 @@ public class FileUtils {
         }
 
         //obtenemos el nombre gracias al numero del mes localizado en config.txt
-        month = months[Integer.valueOf(monthAux) - 1];
+        month = months[Integer.valueOf(monthNum) - 1];
 
-        System.out.println(month + " de " + yearAux);
+        System.out.println(month + " de " + yearNum);
 
 
         return month;
     }
 
-    public void generateHTML(){
+    public void generateHTML() {
 
     }
 

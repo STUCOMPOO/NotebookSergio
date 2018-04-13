@@ -43,17 +43,23 @@ public class AgendaTest {
     File fileAux;
     Map<String, String[]> mapAux;
     Request request;
+    Config config;
 
     @Before
     public void setUp() {
-        FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+        //FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
         FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
         fileUtils = new FileUtils();
         //directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         configList = new ArrayList<>();
         mapAux = new HashMap<>();
+        config = null;
+
     }
+
 
     @After
     public void tearDown() {
@@ -63,17 +69,17 @@ public class AgendaTest {
     // The methods must be annotated with annotation @Test. For example:
     @Test
     public void readConfigAndGetLanguageFileByLangSpecified() {
+        //leemos el archivo config.txt
         configList = fileUtils.readFileByPath(FILE_PATH_CONFIG);
+        config = new Config(configList);
         System.out.println("\n");
-        fileAux = fileUtils.getLanguageFile(directoryPath);
-        fileUtils.readFileByFile(fileAux);
+        //obtenemos el archivo internacional dependiendo del idioma especificado en la configuracion
+        fileAux = fileUtils.getLanguageFile(config.getOutputlanguage(), directoryPath);
 
-        fileUtils.getMonthByNum();
+        fileUtils.getTraductionsFromFile(fileAux);
+
+        //fileUtils.getMonthByNum();
     }
 
-    @Test
-    public void readPeticionsAndSaveItInList(){
-
-    }
 
 }
