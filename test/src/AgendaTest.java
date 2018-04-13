@@ -49,11 +49,11 @@ public class AgendaTest {
     public void setUp() {
         //FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
         //FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-        FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        FILE_PATH_PETICIONES = "C:\\Users\\alu2014044\\Desktop\\Enunciado práctica en grupo Agenda-20180413\\peticions.txt";
+        FILE_PATH_CONFIG = "C:\\Users\\alu2014044\\Desktop\\Enunciado práctica en grupo Agenda-20180413\\config.txt";
         fileUtils = new FileUtils();
         //directoryPath = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
-        directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        directoryPath = "C:\\Users\\alu2014044\\Desktop\\Enunciado práctica en grupo Agenda-20180413";
         configList = new ArrayList<>();
         mapAux = new HashMap<>();
         config = null;
