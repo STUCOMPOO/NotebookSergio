@@ -28,6 +28,9 @@ public class FileUtils {
 
     }
 
+    private void checkMascara(){
+
+    }
 
     //funciton returns string List with all the config information
     public List<String> readFileByPath(String filePath) {
