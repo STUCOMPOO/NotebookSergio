@@ -5,6 +5,7 @@ import entities.Config;
 import entities.Request;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //VARIABLES
 
         //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
@@ -22,13 +23,13 @@ public class Main {
         String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
-        Config config = null;
+        Config config;
         List<String> configuration, requests;
         FileUtils fileUtils = new FileUtils();
-        File file = null;
+        File file;
         Map<String, String[]> traducciones = new HashMap<>();
         String monthSelected;
-        Request request = null;
+        Request request = new Request();
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -43,17 +44,13 @@ public class Main {
         //obtenemos las traducciones
         traducciones = fileUtils.getTraductionsFromFile(file);
 
-
+        //obtenemos el nombre del mes correspondientes
         monthSelected = fileUtils.getMonthByNum(config.getMonth(), config.getYear());
 
         //System.out.println(monthSelected);
 
         requests = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
 
-
-        for (String r : requests){
-            //
-        }
 
 
     }

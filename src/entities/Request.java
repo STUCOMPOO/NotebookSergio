@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author alu2015018
  */
 public class Request {
@@ -37,34 +36,29 @@ public class Request {
         this.hours = hours;
     }
 
-    public void saveRequestFromFile(List<String> requestList) {
+    public void saveRequestFromFile(String[] list) {
 
         //estado de la sala
-        String name = requestList.get(0);
+        String name = list[0];
         //numero de sala
-        String lobby = requestList.get(1);
+        String lobby = list[1];
         //fecha entrada
-        Date startReserve = StringToDate(requestList.get(2));
+        Date startReserve = StringToDate(list[2]);
         //fecha salida
-        Date endReserve = StringToDate(requestList.get(3));
+        Date endReserve = StringToDate(list[3]);
         //dias
-        String days = requestList.get(4);
+        String days = list[4];
         //horas
-        String horas = requestList.get(5);
+        String horas = list[5];
 
         request = new Request(name, lobby, startReserve, endReserve, days, horas);
 
-        this.requestList.add(request);
+        requestList.add(request);
     }
 
+
     public List<Request> getRequestList() {
-
-        if (!requestList.isEmpty()) {
-            return requestList;
-        } else {
-            return null;
-        }
-
+        return requestList;
     }
 
     private Date StringToDate(String dateText) {
