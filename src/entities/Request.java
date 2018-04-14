@@ -21,7 +21,7 @@ public class Request {
     public String hours;
 
     //array list para guardar peticiones
-    private List<Request> requestList = new ArrayList<>();
+    private List<Request> requestList;
     private Request request;
 
     public Request() {
@@ -36,24 +36,45 @@ public class Request {
         this.hours = hours;
     }
 
-    public void saveRequestFromFile(String[] list) {
+    public Request(String[] list){
+        //estado de la sala
+        this.name = list[0];
+        //numero de sala
+        this.lobby = list[1];
+        //fecha entrada
+        this.startReserve = StringToDate(list[2]);
+        //fecha salida
+        this.endReserve = StringToDate(list[3]);
+        //dias
+        this.days = list[4];
+        //horas
+        this.hours = list[5];
+    }
+
+    public Request saveRequestFromFile(String[] list) {
+
+        request = new Request();
+        requestList = new ArrayList<>();
 
         //estado de la sala
-        String name = list[0];
+        name = list[0];
         //numero de sala
-        String lobby = list[1];
+        lobby = list[1];
         //fecha entrada
-        Date startReserve = StringToDate(list[2]);
+        startReserve = StringToDate(list[2]);
         //fecha salida
-        Date endReserve = StringToDate(list[3]);
+        endReserve = StringToDate(list[3]);
         //dias
-        String days = list[4];
+        days = list[4];
         //horas
-        String horas = list[5];
+        hours = list[5];
 
-        request = new Request(name, lobby, startReserve, endReserve, days, horas);
+        request = new Request(name, lobby, startReserve, endReserve, days, hours);
 
-        requestList.add(request);
+
+//        requestList.add(request);
+
+        return request;
     }
 
 
@@ -68,7 +89,7 @@ public class Request {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
 
         try {
-            Date date = formatter.parse(dateText);
+            newDate = formatter.parse(dateText);
 
         } catch (Exception e) {
 

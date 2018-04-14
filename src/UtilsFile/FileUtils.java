@@ -5,6 +5,7 @@
  */
 package UtilsFile;
 
+import entities.Config;
 import entities.Request;
 
 import java.io.*;
@@ -24,7 +25,11 @@ public class FileUtils {
     private String languageAux, yearAux, monthAux;
     private String[] months;
     private Request request;
+    private List<Request> requestList = new ArrayList<>();
 
+    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    private Request requestAux;
 
     //string to test
     public FileUtils() {
@@ -47,9 +52,13 @@ public class FileUtils {
             System.out.println(currentLine);
             arrayString = currentLine.split(" ");
 
-            if (filePath.equals("peticions.txt")) {
-//                System.out.println(arrayString.length);
-                request.saveRequestFromFile(arrayString);
+            if (filePath.equals(FILE_PATH_PETICIONES)) {
+                //System.out.println("PATH1: " + FILE_PATH_PETICIONES);
+                //System.out.println(arrayString.length);
+                //añadimos al
+                requestAux = new Request(arrayString);
+                requestList.add(requestAux);
+
             }
 
             stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
@@ -58,7 +67,7 @@ public class FileUtils {
 
 
         //si el archivo pasado es config
-        if (filePath.contains("config.txt")) {
+        if (filePath.endsWith(FILE_PATH_CONFIG)) {
 //comprobacion para ver si se han añadido correctamente los valores
             for (int i = 0; i < stringList.size(); i++) {
 
@@ -72,14 +81,14 @@ public class FileUtils {
 
             System.out.println("config");
             //si el archivo pasado es el de peticiones
-        } else if (filePath.contains("peticions.txt")) {
+        } else if (filePath.equals(FILE_PATH_PETICIONES)) {
 
             for (int i = 0; i < stringList.size(); i++) {
                 System.out.println(stringList.get(i));
             }
 
             System.out.println("peticiones");
-            System.out.println("Count: " + request.getRequestList().size());
+            System.out.println("Count: " + requestList.size());
         }
 
 

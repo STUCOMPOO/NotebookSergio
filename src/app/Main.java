@@ -6,6 +6,7 @@ import entities.Request;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class Main {
         //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
         Config config;
-        List<String> configuration, requests;
+        List<String> configuration, requests = new ArrayList<>();
         FileUtils fileUtils = new FileUtils();
         File file;
         Map<String, String[]> traducciones = new HashMap<>();
@@ -49,6 +50,7 @@ public class Main {
 
         //System.out.println(monthSelected);
 
+        //obtenemos
         requests = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
 
 
