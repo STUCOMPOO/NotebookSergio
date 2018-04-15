@@ -53,10 +53,18 @@ public class Main {
 
         //obtenemos un array list con todas las peticiones del archivo peticions.txt
         requestList = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
-        //mostramos todos los nombres de las salas
+
+
+        //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
         for (Request r : requestList){
-            System.out.println(r.getLobby());
+            //System.out.println(r.getLobby());
         }
+
+
+        fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
+
+
+
 
     }
 

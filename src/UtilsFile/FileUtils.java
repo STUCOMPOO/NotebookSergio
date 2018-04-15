@@ -64,8 +64,6 @@ public class FileUtils {
             stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
         }
 
-
-
         //si el archivo pasado es config
         if (filePath.endsWith(FILE_PATH_CONFIG)) {
 //comprobacion para ver si se han añadido correctamente los valores
@@ -80,6 +78,8 @@ public class FileUtils {
             }
 
             System.out.println("config");
+
+
             //si el archivo pasado es el de peticiones
         } else if (filePath.equals(FILE_PATH_PETICIONES)) {
 
@@ -93,26 +93,26 @@ public class FileUtils {
             return requestList;
         }
 
-
-
-
-
-        /*} catch (Exception e) {
-
-
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException ignored) {
-
-            }
-        }*/
-
         return stringList;
 
     }
 
-    public List<Request> getRequestList(){
+    //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
+    public void matchConfigWithRequest(List<Request> list, int month, int year) {
+        for (Request r : list) {
+            String[] date = r.getStartReserve().split("/");
+            System.out.println(r.getStartReserve());
+            System.out.println(date[1]);
+            System.out.println(date[2]);
+
+            if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
+                System.out.println(r.getName());
+            }
+
+        }
+    }
+
+    public List<Request> getRequestList() {
         return requestList;
     }
 
@@ -149,7 +149,7 @@ public class FileUtils {
         return languageFile;
     }
 
-    public void readPeticionsFileByFile(File file) {
+    public void writeFile() {
 
     }
 

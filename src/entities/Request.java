@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +16,8 @@ public class Request {
 
     public String name;
     public String lobby;
-    public Date startReserve;
-    public Date endReserve;
+    public String startReserve;
+    public String endReserve;
     public String days;
     public String hours;
 
@@ -27,7 +28,7 @@ public class Request {
     public Request() {
     }
 
-    public Request(String name, String lobby, Date startReserve, Date endReserve, String days, String hours) {
+    public Request(String name, String lobby, String startReserve, String endReserve, String days, String hours) {
         this.name = name;
         this.lobby = lobby;
         this.startReserve = startReserve;
@@ -42,9 +43,9 @@ public class Request {
         //numero de sala
         this.lobby = list[1];
         //fecha entrada
-        this.startReserve = StringToDate(list[2]);
+        this.startReserve = list[2];
         //fecha salida
-        this.endReserve = StringToDate(list[3]);
+        this.endReserve = list[3];
         //dias
         this.days = list[4];
         //horas
@@ -61,9 +62,9 @@ public class Request {
         //numero de sala
         lobby = list[1];
         //fecha entrada
-        startReserve = StringToDate(list[2]);
+        startReserve = list[2];
         //fecha salida
-        endReserve = StringToDate(list[3]);
+        endReserve = list[3];
         //dias
         days = list[4];
         //horas
@@ -86,10 +87,15 @@ public class Request {
         Date newDate = new Date();
 
         //formato en el que queremos la fecha
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        //System.out.println(dateText);
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
         try {
-            newDate = formatter.parse(dateText);
+            //newDate = formatter.parse(dateText);
+
+
+            System.out.println(newDate);
 
         } catch (Exception e) {
 
@@ -115,19 +121,19 @@ public class Request {
         this.lobby = lobby;
     }
 
-    public Date getStartReserve() {
+    public String getStartReserve() {
         return startReserve;
     }
 
-    public void setStartReserve(Date startReserve) {
+    public void setStartReserve(String startReserve) {
         this.startReserve = startReserve;
     }
 
-    public Date getEndReserve() {
+    public String getEndReserve() {
         return endReserve;
     }
 
-    public void setEndReserve(Date endReserve) {
+    public void setEndReserve(String endReserve) {
         this.endReserve = endReserve;
     }
 
