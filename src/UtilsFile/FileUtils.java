@@ -38,7 +38,7 @@ public class FileUtils {
 
 
     //funciton returns string List with all the config information
-    public List<String> readFileByPath(String filePath) throws IOException {
+    public List readFileByPath(String filePath) throws IOException {
 
         System.out.println(filePath);
         List<String> stringList = new ArrayList<>();
@@ -89,7 +89,12 @@ public class FileUtils {
 
             System.out.println("peticiones");
             System.out.println("Count: " + requestList.size());
+
+            return requestList;
         }
+
+
+
 
 
         /*} catch (Exception e) {
@@ -105,6 +110,10 @@ public class FileUtils {
 
         return stringList;
 
+    }
+
+    public List<Request> getRequestList(){
+        return requestList;
     }
 
     //funcion para obtener el fichero del idioma especificado

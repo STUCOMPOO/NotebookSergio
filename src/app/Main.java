@@ -25,7 +25,8 @@ public class Main {
         //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
         Config config;
-        List<String> configuration, requests = new ArrayList<>();
+        List<String> configuration;
+        List<Request> requestList = new ArrayList<>();
         FileUtils fileUtils = new FileUtils();
         File file;
         Map<String, String[]> traducciones = new HashMap<>();
@@ -50,10 +51,12 @@ public class Main {
 
         //System.out.println(monthSelected);
 
-        //obtenemos
-        requests = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
-
-
+        //obtenemos un array list con todas las peticiones del archivo peticions.txt
+        requestList = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
+        //mostramos todos los nombres de las salas
+        for (Request r : requestList){
+            System.out.println(r.getLobby());
+        }
 
     }
 
