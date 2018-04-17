@@ -99,12 +99,15 @@ public class FileUtils {
 
     //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
     public void matchConfigWithRequest(List<Request> list, int month, int year) {
+        //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
         for (Request r : list) {
+            //de la fecha de comienzo la partimos por el caracter / para comprobar si el mes y año coinciden con los pedidos
             String[] date = r.getStartReserve().split("/");
-            System.out.println(r.getStartReserve());
+            /*System.out.println(r.getStartReserve());
             System.out.println(date[1]);
-            System.out.println(date[2]);
+            System.out.println(date[2]);*/
 
+            //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
             if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
                 System.out.println(r.getName());
             }
@@ -149,9 +152,7 @@ public class FileUtils {
         return languageFile;
     }
 
-    public void writeFile() {
 
-    }
 
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
     public Map getTraductionsFromFile(File file) {
@@ -198,7 +199,6 @@ public class FileUtils {
 
         }
 
-
         //System.out.println(monthAux);
 
         return traductions;
@@ -229,6 +229,11 @@ public class FileUtils {
     }
 
     public void generateHTML() {
+
+    }
+
+    //String... quiere decir que podemos pasarle tantos String como queramos
+    public void writeHtmlInFile(String... html) {
 
     }
 
