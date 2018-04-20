@@ -27,7 +27,7 @@ public class Main {
 
         Config config;
         List<String> configuration;
-        List<Request> requestList = new ArrayList<>();
+        List<Request> requestList;
         FileUtils fileUtils = new FileUtils();
         File file;
         Map<String, String[]> traducciones = new HashMap<>();
@@ -57,9 +57,9 @@ public class Main {
 
 
         //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
-        for (Request r : requestList){
+        /*for (Request r : requestList){
             //System.out.println(r.getLobby());
-        }
+        }*/
 
 
         fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
