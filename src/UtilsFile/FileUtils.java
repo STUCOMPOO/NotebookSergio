@@ -18,7 +18,6 @@ import java.util.*;
 public class FileUtils {
 
     private BufferedReader bufferedReader = null;
-    private BufferedWriter writer = null;
     private FileReader fr = null;
     private String currentLine;
     private String[] arrayString = null;
@@ -28,10 +27,8 @@ public class FileUtils {
     private Request request;
     private List<Request> requestList = new ArrayList<>();
 
-    //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-    String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
     private Request requestAux;
 
     //string to test
@@ -111,7 +108,7 @@ public class FileUtils {
             System.out.println(date[2]);*/
 
             //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
-            if (date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))) {
+            if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
                 System.out.println(r.getName());
             }
 
@@ -154,6 +151,7 @@ public class FileUtils {
 
         return languageFile;
     }
+
 
 
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
@@ -235,30 +233,7 @@ public class FileUtils {
     }
 
     //String... quiere decir que podemos pasarle tantos String como queramos
-    public void writeHtmlInFile(String html, String nameLoby) {
-
-        //archivo que sera generado
-        File file = null;
-
-        try {
-
-            file = new File(nameLoby);
-
-            System.out.println(file.getCanonicalPath());
-
-            writer = new BufferedWriter(new FileWriter(file + ".html"));
-
-            writer.write(html);
-
-        } catch (IOException ignored) {
-
-        } finally {
-            try{
-                writer.close();
-            }catch(Exception e){
-
-            }
-        }
+    public void writeHtmlInFile(String... html) {
 
     }
 
