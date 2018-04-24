@@ -198,9 +198,34 @@ public class FileUtils {
         return month;
     }
 
-    public void generateHTML() {
+    public void writeHtmlInFile(String html, String nameLoby) {
+
+        //archivo que sera generado
+        File file = null;
+
+        BufferedWriter writer = null;
+        
+        try {
+
+            file = new File(nameLoby);
+
+            System.out.println(file.getCanonicalPath());
+
+            writer = new BufferedWriter(new FileWriter(file + ".html"));
+
+            writer.write(html);
+
+        } catch (IOException ignored) {
+
+        } finally {
+            try{
+                writer.close();
+            }catch(Exception e){
+
+            }
+        }
 
     }
-
+    
 
 }
