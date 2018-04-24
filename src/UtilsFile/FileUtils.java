@@ -21,7 +21,7 @@ public class FileUtils {
     private FileReader fr = null;
     private String currentLine;
     private String[] arrayString = null;
-    private Map<String, String[]> traductions;          //traducciones
+    private Map<String, String[]> traductions = new HashMap<>();          //traducciones
     private String languageAux, yearAux, monthAux;
     private String[] months;
     private Request request;
@@ -100,16 +100,20 @@ public class FileUtils {
     //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
     public void matchConfigWithRequest(List<Request> list, int month, int year) {
         //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
-        for (Request r : list) {
+        for (int i = 0; i < list.size(); i++) {
+
+            String startReserve = list.get(i).getStartReserve();
+            System.out.println("++++" + startReserve);
+
             //de la fecha de comienzo la partimos por el caracter / para comprobar si el mes y año coinciden con los pedidos
-            String[] date = r.getStartReserve().split("/");
-            /*System.out.println(r.getStartReserve());
+            String[] date = startReserve.split("/");
+           // System.out.println(list.get(i).getStartReserve());
             System.out.println(date[1]);
-            System.out.println(date[2]);*/
+            System.out.println(date[2]);
 
             //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
             if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
-                System.out.println(r.getName());
+                System.out.println(list.get(i).getName());
             }
 
         }
@@ -157,9 +161,6 @@ public class FileUtils {
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
     public Map getTraductionsFromFile(File file) {
         //inicializamos el array que contiene las palabras
-        traductions = new HashMap<>();
-
-
         try {
             fr = new FileReader(file);
             bufferedReader = new BufferedReader(fr);
@@ -209,7 +210,7 @@ public class FileUtils {
     public String getMonthByNum(int monthNum, int yearNum) {
         String month = "";
 
-        String[] months = {""};
+        String[] months = new String[12];
 
         //recorremos el map en busca del array de string que contiene los meses, situado en la posicion 004
         for (Map.Entry<String, String[]> e : traductions.entrySet()) {
@@ -228,9 +229,6 @@ public class FileUtils {
         return month;
     }
 
-    public void generateHTML() {
-
-    }
 
     //String... quiere decir que podemos pasarle tantos String como queramos
     public void writeHtmlInFile(String html, String nameLoby) {

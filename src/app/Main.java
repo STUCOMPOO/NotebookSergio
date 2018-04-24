@@ -38,6 +38,7 @@ public class Main {
         Map<String, String[]> traducciones = new HashMap<>();
         String monthSelected;
         Request request = new Request();
+        String[] dias = new String[7];
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -71,19 +72,27 @@ public class Main {
 
         fileUtils.writeHtmlInFile("hola", "sala 1");
 
-        fileUtils.writeHtmlInFile(getHtml(), "index");
+
+        for (Map.Entry<String, String[]> entry: traducciones.entrySet()){
+            //accedemos a los dias que es la clave numero 002
+            if(entry.getKey().equals("002")){
+                dias = entry.getValue();
+            }
+        }
+
+        fileUtils.writeHtmlInFile(getHtml(dias), "index");
 
 
     }
 
-    private static String getHtml() {
+    private static String getHtml(String[] dias) {
 
         StringBuilder sb = new StringBuilder();
         sb.append("<html> "
                 + "<head></head>"
                 + "<body>"
                 + " <table border=\"2px\" cellpadding=\"5\">");
-        sb.append("  <tr><th>Semana</th><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th><th>Sabado</th><th>Domingo</th></tr>");
+        sb.append("  <tr><th>Semana</th><th>" + dias[0] + "</th><th>" + dias[1] + "</th><th>" + dias[2] + "</th><th>"+ dias[3] +"</th><th>"+ dias[4] +"</th><th>"+ dias[5] +"</th><th>"+ dias[6] +"</th></tr>");
         sb.append(" <tr><th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
         for (int i = 0; i < 24; i++) {
 
