@@ -5,8 +5,10 @@ import entities.Config;
 import entities.Request;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,31 +16,28 @@ import java.util.Map;
 public class Main {
 
 
+    private static int hora1;
+    private static int hora2 = 1;
+    private static NumberFormat nf = new DecimalFormat("00");
 
-
-
-    private static int hora1 = 00;
-    private static int hora2 = 01;
-
-    public static void main(String[] args) {
-
-        NumberFormat nf = new DecimalFormat("00") ;
-
+    public static void main(String[] args) throws IOException {
         //VARIABLES
 
-        //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
         String FILE_PATH_CONFIG = "C:\\Users\\alu2014011\\Desktop\\config-files\\config.txt";
+        //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
         String FILE_PATH_PETICIONES = "C:\\Users\\alu2014011\\Desktop\\config-files\\peticions.txt";
+        //String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
         String directoryPath = "C:\\Users\\alu2014011\\Desktop\\config-files";
-        //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
-        Config config = null;
-        List<String> configuration, requests;
+        Config config;
+        List<String> configuration;
+        List<Request> requestList;
         FileUtils fileUtils = new FileUtils();
-        File file = null;
+        File file;
         Map<String, String[]> traducciones = new HashMap<>();
         String monthSelected;
-        Request request = null;
+        Request request = new Request();
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -53,19 +52,31 @@ public class Main {
         //obtenemos las traducciones
         traducciones = fileUtils.getTraductionsFromFile(file);
 
-
-//        monthSelected = fileUtils.getMonthByNum(config.getMonth(), config.getYear());
+        //obtenemos el nombre del mes correspondientes
+        monthSelected = fileUtils.getMonthByNum(config.getMonth(), config.getYear());
 
         //System.out.println(monthSelected);
 
-        requests = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
+        //obtenemos un array list con todas las peticiones del archivo peticions.txt
+        requestList = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
 
 
-        for (String r : requests){
+        //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
+        /*for (Request r : requestList){
+            //System.out.println(r.getLobby());
+        }*/
 
-        }
+
+        fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
+
+        fileUtils.writeHtmlInFile("hola", "sala 1");
+
+        fileUtils.writeHtmlInFile(getHtml(), "index");
 
 
+    }
+
+    private static String getHtml() {
 
         StringBuilder sb = new StringBuilder();
         sb.append("<html> "
@@ -76,7 +87,7 @@ public class Main {
         sb.append(" <tr><th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
         for (int i = 0; i < 24; i++) {
 
-            sb.append("<tr><td> "+ nf.format(hora1) + " - "+nf.format(hora2) +" h "+ "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+            sb.append("<tr><td> " + nf.format(hora1) + " - " + nf.format(hora2) + " h " + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
             hora1++;
             hora2++;
         }
@@ -84,10 +95,7 @@ public class Main {
         sb.append("</body>"
                 + "</html>");
 
-
-fileUtils.writeHtmlInFile(sb.toString(),"index");
-
-
+        return sb.toString();
 
     }
 

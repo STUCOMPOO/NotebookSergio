@@ -4,31 +4,31 @@ import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author alu2015018
  */
 public class Request {
 
     public String name;
     public String lobby;
-    public Date startReserve;
-    public Date endReserve;
+    public String startReserve;
+    public String endReserve;
     public String days;
     public String hours;
 
     //array list para guardar peticiones
-    private List<Request> requestList = new ArrayList<>();
+    private List<Request> requestList;
     private Request request;
 
     public Request() {
     }
 
-    public Request(String name, String lobby, Date startReserve, Date endReserve, String days, String hours) {
+    public Request(String name, String lobby, String startReserve, String endReserve, String days, String hours) {
         this.name = name;
         this.lobby = lobby;
         this.startReserve = startReserve;
@@ -37,44 +37,65 @@ public class Request {
         this.hours = hours;
     }
 
-    public void saveRequestFromFile(List<String> requestList) {
-
+    public Request(String[] list){
         //estado de la sala
-        String name = requestList.get(0);
+        this.name = list[0];
         //numero de sala
-        String lobby = requestList.get(1);
+        this.lobby = list[1];
         //fecha entrada
-        Date startReserve = StringToDate(requestList.get(2));
+        this.startReserve = list[2];
         //fecha salida
-        Date endReserve = StringToDate(requestList.get(3));
+        this.endReserve = list[3];
         //dias
-        String days = requestList.get(4);
+        this.days = list[4];
         //horas
-        String horas = requestList.get(5);
-
-        request = new Request(name, lobby, startReserve, endReserve, days, horas);
-
-        this.requestList.add(request);
+        this.hours = list[5];
     }
 
+    public Request saveRequestFromFile(String[] list) {
+
+        request = new Request();
+        requestList = new ArrayList<>();
+
+        //estado de la sala
+        name = list[0];
+        //numero de sala
+        lobby = list[1];
+        //fecha entrada
+        startReserve = list[2];
+        //fecha salida
+        endReserve = list[3];
+        //dias
+        days = list[4];
+        //horas
+        hours = list[5];
+
+        request = new Request(name, lobby, startReserve, endReserve, days, hours);
+
+
+//        requestList.add(request);
+
+        return request;
+    }
+
+
     public List<Request> getRequestList() {
-
-        if (!requestList.isEmpty()) {
-            return requestList;
-        } else {
-            return null;
-        }
-
+        return requestList;
     }
 
     private Date StringToDate(String dateText) {
         Date newDate = new Date();
 
         //formato en el que queremos la fecha
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        //System.out.println(dateText);
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
 
         try {
-            Date date = formatter.parse(dateText);
+            //newDate = formatter.parse(dateText);
+
+
+            System.out.println(newDate);
 
         } catch (Exception e) {
 
@@ -100,19 +121,19 @@ public class Request {
         this.lobby = lobby;
     }
 
-    public Date getStartReserve() {
+    public String getStartReserve() {
         return startReserve;
     }
 
-    public void setStartReserve(Date startReserve) {
+    public void setStartReserve(String startReserve) {
         this.startReserve = startReserve;
     }
 
-    public Date getEndReserve() {
+    public String getEndReserve() {
         return endReserve;
     }
 
-    public void setEndReserve(Date endReserve) {
+    public void setEndReserve(String endReserve) {
         this.endReserve = endReserve;
     }
 
@@ -137,5 +158,8 @@ public class Request {
         return "request [name=" + name + ", lobby=" + lobby + ", startReserve=" + startReserve + ", endReserve="
                 + endReserve + ", days=" + days + ", hours=" + hours + "]";
     }
+
+
+
 
 }
