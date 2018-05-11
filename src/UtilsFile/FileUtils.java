@@ -232,6 +232,68 @@ public class FileUtils {
     public void generateHTML() {
 
     }
+    
+    
+    public void Mascaradias() {
+        File incidencies = new File("incidencies.txt");
+
+
+        Calendar calendar = Calendar.getInstance();
+
+
+
+        try {
+
+            String[] days;
+
+            writer = new BufferedWriter(new FileWriter(incidencies, true));
+
+
+            for (Request r : requestList) {
+
+                if (r.hours.contains("_")) {
+                    days = r.hours.split("_");
+
+
+                } else {
+                    //Completar String de error con nombre, dia, horainicio, horafin, y mensaje de error.
+                    days = r.hours.split("-");
+                    int horainicio = Integer.parseInt(days[0]);
+                    int horafinal = Integer.parseInt(days[1]);
+                    String horas = "(" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ")" + horainicio + "-" + horafinal + " (¡¡No Válido, mínimo una hora de diferencia!!) ";
+
+
+                    if (horafinal - horainicio == 0) {
+
+                        if (incidencies.exists()) {
+                            writer.write(horas);
+                            writer.newLine();
+
+                        }
+
+
+                    } else {
+
+                    }
+
+
+                }
+
+
+            }
+
+        } catch (IOException e) {
+
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException ignored) {
+
+            }
+        }
+
+
+    }
 
     //String... quiere decir que podemos pasarle tantos String como queramos
     public void writeHtmlInFile(String html, String nameLoby) {
