@@ -83,28 +83,6 @@ public class Request {
         return requestList;
     }
 
-    private Date StringToDate(String dateText) {
-        Date newDate = new Date();
-
-        //formato en el que queremos la fecha
-        //System.out.println(dateText);
-        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-
-        try {
-            //newDate = formatter.parse(dateText);
-
-
-            System.out.println(newDate);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return newDate;
-    }
-
     public String getName() {
         return name;
     }
