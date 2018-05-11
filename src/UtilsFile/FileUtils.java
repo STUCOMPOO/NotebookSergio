@@ -18,6 +18,7 @@ import java.util.*;
 public class FileUtils {
 
     private BufferedReader bufferedReader = null;
+    private BufferedWriter writer = null;
     private FileReader fr = null;
     private String currentLine;
     private String[] arrayString = null;
@@ -233,8 +234,30 @@ public class FileUtils {
     }
 
     //String... quiere decir que podemos pasarle tantos String como queramos
-    public void writeHtmlInFile(String... html) {
+    public void writeHtmlInFile(String html, String nameLoby) {
 
+        //archivo que sera generado
+        File file = null;
+
+        try {
+
+            file = new File(nameLoby);
+
+            System.out.println(file.getCanonicalPath());
+
+            writer = new BufferedWriter(new FileWriter(file + ".html"));
+
+            writer.write(html);
+
+        } catch (IOException ignored) {
+
+        } finally {
+            try{
+                writer.close();
+            }catch(Exception e){
+
+            }
+        }
     }
 
 
