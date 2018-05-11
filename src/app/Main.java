@@ -5,6 +5,8 @@ import entities.Config;
 import entities.Request;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,22 +15,24 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //VARIABLES
 
-        //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-        String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
-        //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
+        String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+        String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+        //String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
-        Config config = null;
-        List<String> configuration, requests;
+        Config config;
+        List<String> configuration;
+        List<Request> requestList;
         FileUtils fileUtils = new FileUtils();
-        File file = null;
+        File file;
         Map<String, String[]> traducciones = new HashMap<>();
         String monthSelected;
-        Request request = null;
+        Request request = new Request();
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -43,17 +47,24 @@ public class Main {
         //obtenemos las traducciones
         traducciones = fileUtils.getTraductionsFromFile(file);
 
-
+        //obtenemos el nombre del mes correspondientes
         monthSelected = fileUtils.getMonthByNum(config.getMonth(), config.getYear());
 
         //System.out.println(monthSelected);
 
-        requests = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
+        //obtenemos un array list con todas las peticiones del archivo peticions.txt
+        requestList = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
 
 
-        for (String r : requests){
+        //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
+        /*for (Request r : requestList){
+            //System.out.println(r.getLobby());
+        }*/
 
-        }
+
+        fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
+
+        fileUtils.writeHtmlInFile("hola", "sala 1");
 
 
     }

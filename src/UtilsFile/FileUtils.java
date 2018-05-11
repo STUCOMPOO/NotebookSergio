@@ -5,6 +5,9 @@
  */
 package UtilsFile;
 
+import entities.Config;
+import entities.Request;
+
 import java.io.*;
 import java.security.KeyStore;
 import java.util.*;
@@ -15,13 +18,19 @@ import java.util.*;
 public class FileUtils {
 
     private BufferedReader bufferedReader = null;
+    private BufferedWriter writer = null;
     private FileReader fr = null;
     private String currentLine;
     private String[] arrayString = null;
     private Map<String, String[]> traductions;          //traducciones
     private String languageAux, yearAux, monthAux;
     private String[] months;
+    private Request request;
+    private List<Request> requestList = new ArrayList<>();
 
+    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    private Request requestAux;
 
     //string to test
     public FileUtils() {
@@ -30,59 +39,85 @@ public class FileUtils {
 
 
     //funciton returns string List with all the config information
-    public List<String> readFileByPath(String filePath) {
+    public List readFileByPath(String filePath) throws IOException {
 
+        System.out.println(filePath);
         List<String> stringList = new ArrayList<>();
 
-        try {
+        //try {
 
-            fr = new FileReader(filePath);
-            bufferedReader = new BufferedReader(fr);
+        fr = new FileReader(filePath);
+        bufferedReader = new BufferedReader(fr);
 
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                System.out.println(currentLine);
-                arrayString = currentLine.split(" ");
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            System.out.println(currentLine);
+            arrayString = currentLine.split(" ");
 
-                stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
+            if (filePath.equals(FILE_PATH_PETICIONES)) {
+                //System.out.println("PATH1: " + FILE_PATH_PETICIONES);
+                //System.out.println(arrayString.length);
+                //añadimos al
+                requestAux = new Request(arrayString);
+                requestList.add(requestAux);
+
             }
 
-            //si el archivo pasado es config
-            if (filePath.contains("config.txt")) {
+            stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
+        }
+
+        //si el archivo pasado es config
+        if (filePath.endsWith(FILE_PATH_CONFIG)) {
 //comprobacion para ver si se han añadido correctamente los valores
-                for (int i = 0; i < stringList.size(); i++) {
+            for (int i = 0; i < stringList.size(); i++) {
 
-                    System.out.println(stringList.get(i));
-                    //guardamos el mes y año que se indican en el archivo de peticions
-                    if (i == 0) yearAux = stringList.get(i);
-                    if (i == 1) monthAux = stringList.get(i);
-                    //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
-                    if (i == 3) languageAux = stringList.get(i);
-                }
-
-                System.out.println("config");
-                //si el archivo pasado es el de peticiones
-            } else if (filePath.contains("peticions.txt")) {
-
-                for (int i = 0; i < stringList.size(); i++) {
-                    System.out.println(stringList.get(i));
-                }
-
-                System.out.println("peticiones");
+                System.out.println(stringList.get(i));
+                //guardamos el mes y año que se indican en el archivo de peticions
+                if (i == 0) yearAux = stringList.get(i);
+                if (i == 1) monthAux = stringList.get(i);
+                //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
+                if (i == 3) languageAux = stringList.get(i);
             }
 
+            System.out.println("config");
 
-        } catch (Exception e) {
 
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (IOException ignored) {
+            //si el archivo pasado es el de peticiones
+        } else if (filePath.equals(FILE_PATH_PETICIONES)) {
 
+            for (int i = 0; i < stringList.size(); i++) {
+                System.out.println(stringList.get(i));
             }
+
+            System.out.println("peticiones");
+            System.out.println("Count: " + requestList.size());
+
+            return requestList;
         }
 
         return stringList;
 
+    }
+
+    //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
+    public void matchConfigWithRequest(List<Request> list, int month, int year) {
+        //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
+        for (Request r : list) {
+            //de la fecha de comienzo la partimos por el caracter / para comprobar si el mes y año coinciden con los pedidos
+            String[] date = r.getStartReserve().split("/");
+            /*System.out.println(r.getStartReserve());
+            System.out.println(date[1]);
+            System.out.println(date[2]);*/
+
+            //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
+            if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
+                System.out.println(r.getName());
+            }
+
+        }
+    }
+
+    public List<Request> getRequestList() {
+        return requestList;
     }
 
     //funcion para obtener el fichero del idioma especificado
@@ -118,9 +153,7 @@ public class FileUtils {
         return languageFile;
     }
 
-    public void readPeticionsFileByFile(File file) {
 
-    }
 
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
     public Map getTraductionsFromFile(File file) {
@@ -167,9 +200,7 @@ public class FileUtils {
 
         }
 
-
         //System.out.println(monthAux);
-
 
         return traductions;
 
@@ -200,6 +231,95 @@ public class FileUtils {
 
     public void generateHTML() {
 
+    }
+    
+    
+    public void Mascaradias() {
+        File incidencies = new File("incidencies.txt");
+
+
+        Calendar calendar = Calendar.getInstance();
+
+
+
+        try {
+
+            String[] days;
+
+            writer = new BufferedWriter(new FileWriter(incidencies, true));
+
+
+            for (Request r : requestList) {
+
+                if (r.hours.contains("_")) {
+                    days = r.hours.split("_");
+
+
+                } else {
+                    //Completar String de error con nombre, dia, horainicio, horafin, y mensaje de error.
+                    days = r.hours.split("-");
+                    int horainicio = Integer.parseInt(days[0]);
+                    int horafinal = Integer.parseInt(days[1]);
+                    String horas = "(" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ")" + horainicio + "-" + horafinal + " (¡¡No Válido, mínimo una hora de diferencia!!) ";
+
+
+                    if (horafinal - horainicio == 0) {
+
+                        if (incidencies.exists()) {
+                            writer.write(horas);
+                            writer.newLine();
+
+                        }
+
+
+                    } else {
+
+                    }
+
+
+                }
+
+
+            }
+
+        } catch (IOException e) {
+
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException ignored) {
+
+            }
+        }
+
+
+    }
+
+    //String... quiere decir que podemos pasarle tantos String como queramos
+    public void writeHtmlInFile(String html, String nameLoby) {
+
+        //archivo que sera generado
+        File file = null;
+
+        try {
+
+            file = new File(nameLoby);
+
+            System.out.println(file.getCanonicalPath());
+
+            writer = new BufferedWriter(new FileWriter(file + ".html"));
+
+            writer.write(html);
+
+        } catch (IOException ignored) {
+
+        } finally {
+            try{
+                writer.close();
+            }catch(Exception e){
+
+            }
+        }
     }
 
 

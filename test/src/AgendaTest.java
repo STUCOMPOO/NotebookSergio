@@ -8,6 +8,7 @@ import UtilsFile.FileUtils;
 import entities.Config;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public class AgendaTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     @Test
-    public void readConfigAndGetLanguageFileByLangSpecified() {
+    public void readConfigAndGetLanguageFileByLangSpecified() throws IOException {
         //leemos el archivo config.txt
         configList = fileUtils.readFileByPath(FILE_PATH_CONFIG);
         config = new Config(configList);
