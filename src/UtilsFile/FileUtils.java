@@ -321,6 +321,29 @@ public class FileUtils {
             }
         }
     }
+    
+    private static String getHtml(String[] dias) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html> "
+                + "<head></head>"
+                + "<body>"
+                + " <table border=\"2px\" cellpadding=\"5\">");
+        sb.append("  <tr><th>Semana</th><th>" + dias[0] + "</th><th>" + dias[1] + "</th><th>" + dias[2] + "</th><th>"+ dias[3] +"</th><th>"+ dias[4] +"</th><th>"+ dias[5] +"</th><th>"+ dias[6] +"</th></tr>");
+        sb.append(" <tr><th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+        for (int i = 0; i < 24; i++) {
+
+            sb.append("<tr><td> " + nf.format(hora1) + " - " + nf.format(hora2) + " h " + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+            hora1++;
+            hora2++;
+        }
+        sb.append("</table>");
+        sb.append("</body>"
+                + "</html>");
+
+        return sb.toString();
+
+    }
 
 
 }
