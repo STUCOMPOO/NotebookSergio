@@ -26,13 +26,12 @@ public class Main {
         String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
         Config config;
-        List<String> configuration;
-        List<Request> requestList;
+        List configuration;
+        List requestList;
         FileUtils fileUtils = new FileUtils();
         File file;
-        Map<String, String[]> traducciones = new HashMap<>();
+        Map<String, String[]> traducciones;
         String monthSelected;
-        Request request = new Request();
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -61,10 +60,11 @@ public class Main {
             //System.out.println(r.getLobby());
         }*/
 
-
         fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
 
-        fileUtils.writeHtmlInFile("hola", "sala 1");
+
+
+        fileUtils.writeHtmlInFile(fileUtils.getHtml(requestList, traducciones, monthSelected), "sala 1");
 
 
     }

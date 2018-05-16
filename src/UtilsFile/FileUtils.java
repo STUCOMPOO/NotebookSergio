@@ -9,7 +9,6 @@ import entities.Config;
 import entities.Request;
 
 import java.io.*;
-import java.security.KeyStore;
 import java.util.*;
 
 /**
@@ -28,9 +27,12 @@ public class FileUtils {
     private Request request;
     private List<Request> requestList = new ArrayList<>();
 
-    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
     private Request requestAux;
+    private int colspan = 8;
 
     //string to test
     public FileUtils() {
@@ -55,7 +57,7 @@ public class FileUtils {
 
             if (filePath.equals(FILE_PATH_PETICIONES)) {
                 //System.out.println("PATH1: " + FILE_PATH_PETICIONES);
-                //System.out.println(arrayString.length);
+                //System.out.println(arrayString);
                 //añadimos al
                 requestAux = new Request(arrayString);
                 requestList.add(requestAux);
@@ -109,7 +111,7 @@ public class FileUtils {
             System.out.println(date[2]);*/
 
             //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
-            if(date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))){
+            if (date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))) {
                 System.out.println(r.getName());
             }
 
@@ -154,9 +156,8 @@ public class FileUtils {
     }
 
 
-
     //funcion para leer un archivo a partir de una variable del tipo File, y que retorna un map con las traducciones
-    public Map getTraductionsFromFile(File file) {
+    public Map<String, String[]> getTraductionsFromFile(File file) {
         //inicializamos el array que contiene las palabras
         traductions = new HashMap<>();
 
@@ -232,9 +233,10 @@ public class FileUtils {
     public void generateHTML() {
 
     }
-    
-    
+
+
     public void Mascaradias() {
+
         File incidencies = new File("incidencies.txt");
 
         Calendar calendar = Calendar.getInstance();
@@ -268,14 +270,8 @@ public class FileUtils {
 
                         }
 
-
-                    } else {
-
                     }
-
-
                 }
-
 
             }
 
@@ -296,7 +292,7 @@ public class FileUtils {
     public void writeHtmlInFile(String html, String nameLoby) {
 
         //archivo que sera generado
-        File file = null;
+        File file;
 
         try {
 
@@ -311,38 +307,52 @@ public class FileUtils {
         } catch (IOException ignored) {
 
         } finally {
-            try{
+            try {
                 writer.close();
-            }catch(Exception e){
+            } catch (Exception e) {
 
             }
         }
     }
 
+    private int numDay = 0, hora1 = 0, hora2 = 1;
 
-//
-//    private static String getHtml(String[] dias) {
-//
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("<html> "
-//                + "<head></head>"
-//                + "<body>"
-//                + " <table border=\"2px\" cellpadding=\"5\">");
-//        sb.append("  <tr><th>Semana</th><th>" + dias[0] + "</th><th>" + dias[1] + "</th><th>" + dias[2] + "</th><th>"+ dias[3] +"</th><th>"+ dias[4] +"</th><th>"+ dias[5] +"</th><th>"+ dias[6] +"</th></tr>");
-//        sb.append(" <tr><th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-//        for (int i = 0; i < 24; i++) {
-//
-//            sb.append("<tr><td> " + nf.format(hora1) + " - " + nf.format(hora2) + " h " + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
-//            hora1++;
-//            hora2++;
-//        }
-//        sb.append("</table>");
-//        sb.append("</body>"
-//                + "</html>");
-//
-//        return sb.toString();
-//
-//    }
+
+    public String getHtml(List<Request> monthRequests, Map translatedDays, String monthSelected) {
+
+        String[] traductions = (String[]) translatedDays.get("002");
+
+
+        StringBuilder sb = new StringBuilder();
+
+
+        sb.append("<html> "
+                + "     <head>" +
+                "       </head>"
+                + " <body>"
+                + "     <table border=\"2px\" cellpadding=\"5\">");
+        sb.append("         <tr>" +
+                "               <th colspan='" + colspan + "'>" + monthSelected + "</th> " +
+                "           </tr>" +
+                "           <tr>" +
+                "               <th>Semana: " + numDay + "</th><th>" + traductions[0] + "</th><th>" + traductions[1] + "</th><th>" + traductions[2] + "</th><th>" + traductions[3] + "</th><th>" + traductions[4] + "</th><th>" + traductions[5] + "</th><th>" + traductions[6] + "</th>" +
+                "           </tr>");
+        sb.append("         <tr>" +
+                "               <th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td>" +
+                "           </tr>");
+        for (int i = 0; i < 24; i++) {
+
+            sb.append("<tr><td> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h " + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+            hora1++;
+            hora2++;
+        }
+        sb.append("</table>");
+        sb.append("</body>"
+                + "</html>");
+
+        return sb.toString();
+
+    }
 
 
 }
