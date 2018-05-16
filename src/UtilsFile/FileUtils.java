@@ -26,6 +26,7 @@ public class FileUtils {
     private String[] months;
     private Request request;
     private List<Request> requestList = new ArrayList<>();
+    private List<Request> monthRequest = new ArrayList<>();
 
     String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
     //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
@@ -113,6 +114,7 @@ public class FileUtils {
             //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
             if (date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))) {
                 System.out.println(r.getName());
+                monthRequest.add(r);
             }
 
         }
@@ -120,6 +122,10 @@ public class FileUtils {
 
     public List<Request> getRequestList() {
         return requestList;
+    }
+
+    public List<Request> getMonthRequest() {
+        return monthRequest;
     }
 
     //funcion para obtener el fichero del idioma especificado
@@ -342,7 +348,7 @@ public class FileUtils {
                 "           </tr>");
         for (int i = 0; i < 24; i++) {
 
-            sb.append("<tr><td> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h " + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+            sb.append("<tr><td> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h " + "</td><td></td><td>" + monthRequest.get(0).getName() + "</td><td></td><td></td><td></td><td></td><td></td></tr>");
             hora1++;
             hora2++;
         }
