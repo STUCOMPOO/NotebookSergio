@@ -5,10 +5,11 @@
  */
 package UtilsFile;
 
-import entities.Config;
 import entities.Request;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -32,8 +33,11 @@ public class FileUtils {
     //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
     //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
     String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+
     private Request requestAux;
     private int colspan = 8;
+
+    private Map<Integer, Integer> mapDayPos = new HashMap<Integer, Integer>();
 
     //string to test
     public FileUtils() {
@@ -118,6 +122,8 @@ public class FileUtils {
             }
 
         }
+
+        System.out.println("Capacidad monthRequestList: " + monthRequest.size());
     }
 
     public List<Request> getRequestList() {
@@ -241,7 +247,7 @@ public class FileUtils {
     }
 
 
-    public void Mascaradias() {
+    public void mascaraDias(List<Request> listMonthRequest) {
 
         File incidencies = new File("incidencies.txt");
 
@@ -254,7 +260,7 @@ public class FileUtils {
             writer = new BufferedWriter(new FileWriter(incidencies, true));
 
 
-            for (Request r : requestList) {
+            for (Request r : listMonthRequest) {
 
                 if (r.hours.contains("_")) {
                     days = r.hours.split("_");
@@ -323,10 +329,41 @@ public class FileUtils {
 
     private int numDay = 0, hora1 = 0, hora2 = 1;
 
+    private int getWeekNum(String date) {
+
+        String currentFormat = "dd/MM/yyyy";
+
+        SimpleDateFormat df = new SimpleDateFormat(currentFormat);
+
+        Date fecha = new Date();
+
+
+        try {
+            fecha = df.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(fecha);
+
+
+        return cal.get(Calendar.WEEK_OF_YEAR);
+    }
+
 
     public String getHtml(List<Request> monthRequests, Map translatedDays, String monthSelected) {
 
         String[] traductions = (String[]) translatedDays.get("002");
+
+        //comprobar numero de la semana del comienzo de la reserva
+        String startDate = monthRequests.get(0).getStartReserve();
+
+        //obtenemos el numero de semana a partir de una fecha pasada en String
+        numDay = getWeekNum(startDate);
+
+        int startDay = Integer.valueOf(startDate.split("/")[0]);
 
 
         StringBuilder sb = new StringBuilder();
@@ -340,18 +377,51 @@ public class FileUtils {
         sb.append("         <tr>" +
                 "               <th colspan='" + colspan + "'>" + monthSelected + "</th> " +
                 "           </tr>" +
+
+                //fila con los nombres de la semana
                 "           <tr>" +
                 "               <th>Semana: " + numDay + "</th><th>" + traductions[0] + "</th><th>" + traductions[1] + "</th><th>" + traductions[2] + "</th><th>" + traductions[3] + "</th><th>" + traductions[4] + "</th><th>" + traductions[5] + "</th><th>" + traductions[6] + "</th>" +
                 "           </tr>");
+
+        //fila de los numeros del dia
         sb.append("         <tr>" +
-                "               <th>Day</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td>" +
-                "           </tr>");
+                "               <th>Day</th>");
+        for (int d = 0; d < 7; d++) {
+            sb.append("<td>" + startDay + "</td>");
+            //mapa para guardar la posicion de cada dia
+            mapDayPos.put(d, startDay);
+            startDay++;
+        }
+
+        //System.out.println(startDay);
+        sb.append("</tr>");
+
+        //una vez sumados los dias de la semana, recogemos de nuevo el primer dia de reserva
+        startDay = Integer.valueOf(startDate.split("/")[0]);
+
+        //
         for (int i = 0; i < 24; i++) {
 
-            sb.append("<tr><td> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h " + "</td><td></td><td>" + monthRequest.get(0).getName() + "</td><td></td><td></td><td></td><td></td><td></td></tr>");
+            sb.append("<tr>" +
+                    "       <th> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h </th>");
+
+            for (int n = 0; n < 7; n++){
+                //si la hora
+                System.out.println(Integer.valueOf(monthRequests.get(0).getHours().split("-")[1]));
+                if (Integer.valueOf(monthRequests.get(0).getHours().split("-")[0]) <= hora1 && Integer.valueOf(monthRequests.get(0).getHours().split("-")[1]) >= hora2){
+                    sb.append("<td>" + monthRequests.get(0).getName() + "</td>");
+                }else{
+                    sb.append("<td></td>");
+                }
+            }
+
+
+            sb.append("</tr>");
             hora1++;
             hora2++;
         }
+
+
         sb.append("</table>");
         sb.append("</body>"
                 + "</html>");

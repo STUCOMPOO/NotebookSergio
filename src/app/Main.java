@@ -55,9 +55,9 @@ public class Main {
 
 
         //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
-        for (Request r : (List<Request>) requestList) {
-            System.out.println(r.getLobby());
-        }
+//        for (Request r : (List<Request>) requestList) {
+//            System.out.println(r.getLobby());
+//        }
 
         fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
 
