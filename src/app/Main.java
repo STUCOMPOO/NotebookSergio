@@ -46,7 +46,7 @@ public class Main {
         traducciones = fileUtils.getTraductionsFromFile(file);
 
         //obtenemos el nombre del mes correspondientes
-        monthSelected = fileUtils.getMonthByNum(config.getMonth(), config.getYear());
+        monthSelected = fileUtils.getMonthByNum(config.getMonth());
 
         //System.out.println(monthSelected);
 
@@ -61,6 +61,7 @@ public class Main {
 
         fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
 
+        fileUtils.mascaraDias(requestList);
 
         fileUtils.writeHtmlInFile(fileUtils.getHtml(fileUtils.getMonthRequest(), traducciones, monthSelected), "sala 1");
 

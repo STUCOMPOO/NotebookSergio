@@ -110,16 +110,26 @@ public class FileUtils {
         //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
         for (Request r : list) {
             //de la fecha de comienzo la partimos por el caracter / para comprobar si el mes y año coinciden con los pedidos
-            String[] date = r.getStartReserve().split("/");
+            String[] dateStart = r.getStartReserve().split("/");
+            String[] dateEnd = r.getEndReserve().split("/");
+
             /*System.out.println(r.getStartReserve());
             System.out.println(date[1]);
             System.out.println(date[2]);*/
 
+            //mes que empieza
+            int mesStart = Integer.valueOf(dateStart[1]);
+            //mes que acaba
+            int mesEnd = Integer.valueOf(dateEnd[1]);
+            //año request
+            int anyo = Integer.valueOf(dateStart[2]);
+
             //si el mes y año coincide, añadimos la peticion a un array de peticiones que coinciden
-            if (date[1].equals(String.valueOf(month)) && date[2].equals(String.valueOf(year))) {
-                System.out.println(r.getName());
+            if (month >= mesStart && month <= mesEnd && year == anyo) {
+                System.out.println("METEMELO TODO: " + r.getName());
                 monthRequest.add(r);
             }
+
 
         }
 
@@ -220,8 +230,8 @@ public class FileUtils {
     }
 
     //funcion con la cual obtenemos el nombre del mes a partir del numero especificado en config.txt
-    public String getMonthByNum(int monthNum, int yearNum) {
-        String month = "";
+    public String getMonthByNum(int monthNum) {
+        String month;
 
         String[] months = {""};
 
@@ -236,7 +246,7 @@ public class FileUtils {
         //obtenemos el nombre gracias al numero del mes localizado en config.txt
         month = months[Integer.valueOf(monthNum) - 1];
 
-        System.out.println(month + " de " + yearNum);
+        //System.out.println(month + " de " + yearNum);
 
 
         return month;
@@ -405,14 +415,26 @@ public class FileUtils {
             sb.append("<tr>" +
                     "       <th> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h </th>");
 
-            for (int n = 0; n < 7; n++){
-                //si la hora
-                System.out.println(Integer.valueOf(monthRequests.get(0).getHours().split("-")[1]));
-                if (Integer.valueOf(monthRequests.get(0).getHours().split("-")[0]) <= hora1 && Integer.valueOf(monthRequests.get(0).getHours().split("-")[1]) >= hora2){
-                    sb.append("<td>" + monthRequests.get(0).getName() + "</td>");
-                }else{
-                    sb.append("<td></td>");
+            for (int n = 0; n < 7; n++) {
+
+
+                for (int j = 0; j < monthRequests.size(); j++) {
+                    //si la hora
+//                    if (!monthRequests.get(n).getHours().contains("_")) {
+//                        System.out.println(Integer.valueOf(monthRequests.get(n).getHours().split("-")[1]));
+//                    }
+
+                    if (Integer.valueOf(monthRequests.get(j).getHours().split("-")[0]) <= hora1 &&
+                            Integer.valueOf(monthRequests.get(j).getHours().split("-")[1]) >= hora2) {
+
+
+                        System.out.println("CABRON" + j);
+                        sb.append("<td>" + monthRequests.get(j).getName() + "</td>");
+                    } else {
+                        sb.append("<td></td>");
+                    }
                 }
+
             }
 
 
