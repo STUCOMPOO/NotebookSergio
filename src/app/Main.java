@@ -6,10 +6,9 @@ import entities.Request;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
@@ -17,12 +16,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //VARIABLES
 
-        String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-        //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-        String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-        //String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
-        String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
+        //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+        String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+        //String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+        String directoryPath = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal";
+        //String directoryPath = "C:\\\\Users\\\\alu2015018\\\\OneDrive - Stucom, S.A(1)\\\\DAM\\\\POO y LI\\\\Practicas\\\\PracticaGrupal";
 
         Config config;
         List configuration;
@@ -59,11 +58,16 @@ public class Main {
 //            System.out.println(r.getLobby());
 //        }
 
-        fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
+        //obtenemos un array con los meses que coinciden
+        List<Request> mesesList = fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
 
-        fileUtils.mascaraDias(requestList);
+        Set<String> setSalas = fileUtils.getNombreSalas(mesesList);
 
-        fileUtils.writeHtmlInFile(fileUtils.getHtml(fileUtils.getMonthRequest(), traducciones, monthSelected), "sala 1");
+        //fileUtils.mascaraDias(requestList);
+
+        String html = fileUtils.generateHtml(fileUtils.getMonthRequest(), traducciones, monthSelected);
+
+        fileUtils.writeHtmlInFile(html, "sala 1");
 
     }
 

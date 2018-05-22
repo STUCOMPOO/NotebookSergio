@@ -1,12 +1,7 @@
 package entities;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,7 +14,7 @@ public class Request {
     public String startReserve;
     public String endReserve;
     public String days;
-    public String hours;
+    public List<String> hours;
 
     //array list para guardar peticiones
     private List<Request> requestList = new ArrayList<>();
@@ -28,7 +23,7 @@ public class Request {
     public Request() {
     }
 
-    public Request(String name, String lobby, String startReserve, String endReserve, String days, String hours) {
+    public Request(String name, String lobby, String startReserve, String endReserve, String days, List<String> hours) {
         this.name = name;
         this.lobby = lobby;
         this.startReserve = startReserve;
@@ -49,7 +44,25 @@ public class Request {
         //dias
         this.days = list[4];
         //horas
-        this.hours = list[5];
+        this.hours = checkHours(list[5]);
+    }
+
+    //variable para comprobar si la hora tiene dos ohrarios o no
+    private List<String> checkHours(String hour){
+
+        String[] horas;
+        List<String> listHoras = new ArrayList<>();
+
+        if(!hour.contains("_")){
+            horas = hour.split("_");
+
+            listHoras.addAll(Arrays.asList(horas));
+        }else{
+            listHoras.add(hour);
+        }
+
+
+        return listHoras;
     }
 
     public Request saveRequestFromFileAndReturnListRequest(List<String> listRequest) {
@@ -66,7 +79,7 @@ public class Request {
         //dias
         days = listRequest.get(4);
         //horas
-        hours = listRequest.get(5);
+        //hours = listRequest.get(5);
 
         request = new Request(name, lobby, startReserve, endReserve, days, hours);
 
@@ -120,11 +133,11 @@ public class Request {
         this.days = days;
     }
 
-    public String getHours() {
+    public List<String> getHours() {
         return hours;
     }
 
-    public void setHours(String hours) {
+    public void setHours(List<String> hours) {
         this.hours = hours;
     }
 

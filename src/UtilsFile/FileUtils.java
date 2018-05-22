@@ -6,6 +6,7 @@
 package UtilsFile;
 
 import entities.Request;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.*;
 import java.text.ParseException;
@@ -28,11 +29,12 @@ public class FileUtils {
     private Request request;
     private List<Request> requestList = new ArrayList<>();
     private List<Request> monthRequest = new ArrayList<>();
+    private Set<String> nombreSalas = new HashSet<>();
 
-    String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-    String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    //String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
 
     private Request requestAux;
     private int colspan = 8;
@@ -60,13 +62,14 @@ public class FileUtils {
             System.out.println(currentLine);
             arrayString = currentLine.split(" ");
 
+            //si son las peticiones, al leerlas las añadmos a una lista
             if (filePath.equals(FILE_PATH_PETICIONES)) {
                 //System.out.println("PATH1: " + FILE_PATH_PETICIONES);
                 //System.out.println(arrayString);
                 //añadimos al
                 requestAux = new Request(arrayString);
-                requestList.add(requestAux);
 
+                requestList.add(requestAux);
             }
 
             stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
@@ -95,7 +98,7 @@ public class FileUtils {
                 System.out.println(stringList.get(i));
             }
 
-            System.out.println("peticiones");
+            System.out.println("Peticiones");
             System.out.println("Count: " + requestList.size());
 
             return requestList;
@@ -105,8 +108,21 @@ public class FileUtils {
 
     }
 
+    public Set<String> getNombreSalas(List<Request> peticionesList) {
+
+        //guardamos los nombres de las salas de las peticiones selccionadas
+        for (Request r : peticionesList) {
+            nombreSalas.add(r.getLobby());
+        }
+
+        System.out.println("NUMERO DE SALAS SELECCIONADAS " + nombreSalas.size());
+
+        return nombreSalas;
+    }
+
     //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
-    public void matchConfigWithRequest(List<Request> list, int month, int year) {
+    public List<Request> matchConfigWithRequest(List<Request> list, int month, int year) {
+
         //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
         for (Request r : list) {
             //de la fecha de comienzo la partimos por el caracter / para comprobar si el mes y año coinciden con los pedidos
@@ -134,6 +150,8 @@ public class FileUtils {
         }
 
         System.out.println("Capacidad monthRequestList: " + monthRequest.size());
+
+        return monthRequest;
     }
 
     public List<Request> getRequestList() {
@@ -252,12 +270,28 @@ public class FileUtils {
         return month;
     }
 
-    public void generateHTML() {
+    public String checkDias() {
 
+
+        return "<td></td>";
     }
 
+    public void generateHTML(Set<String> salaNombre, List<Request> requestList) {
 
-    public void mascaraDias(List<Request> listMonthRequest) {
+        //recorremos sala por sala
+
+        for (String n : salaNombre) {
+
+            for (Request r : requestList) {
+                //por cada sala generaremos un html
+                if (r.getLobby().equals(n)) {
+
+                }
+            }
+        }
+    }
+
+    /*public void mascaraDias(List<Request> listMonthRequest) {
 
         File incidencies = new File("incidencies.txt");
 
@@ -281,6 +315,7 @@ public class FileUtils {
                     days = r.hours.split("-");
                     int horainicio = Integer.parseInt(days[0]);
                     int horafinal = Integer.parseInt(days[1]);
+
                     String horas = "(" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ")" + horainicio + "-" + horafinal + " (¡¡No Válido, mínimo una hora de diferencia!!) ";
 
 
@@ -308,7 +343,7 @@ public class FileUtils {
         }
 
 
-    }
+    }*/
 
     //String... quiere decir que podemos pasarle tantos String como queramos
     public void writeHtmlInFile(String html, String nameLoby) {
@@ -337,7 +372,7 @@ public class FileUtils {
         }
     }
 
-    private int numDay = 0, hora1 = 0, hora2 = 1;
+    private int weekNum = 0, hora1 = 0, hora2 = 1;
 
     private int getWeekNum(String date) {
 
@@ -362,19 +397,34 @@ public class FileUtils {
         return cal.get(Calendar.WEEK_OF_YEAR);
     }
 
+    public void writeHTML(Request request) {
 
-    public String getHtml(List<Request> monthRequests, Map translatedDays, String monthSelected) {
+    }
+
+    public String getNextDay(String date) {
+        //formato de la fecha
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        //inicializamos un objeto del tipo Calendar
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(simpleDateFormat.parse(date));
+            c.add(Calendar.DATE, 1);
+            System.out.println("SIGUIENTE FECHA:  " + simpleDateFormat.format(c.getTime()));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return simpleDateFormat.format(c.getTime());
+    }
+
+
+    public String generateHtml(List<Request> monthRequests, Map translatedDays, String monthSelected) {
 
         String[] traductions = (String[]) translatedDays.get("002");
 
-        //comprobar numero de la semana del comienzo de la reserva
-        String startDate = monthRequests.get(0).getStartReserve();
-
-        //obtenemos el numero de semana a partir de una fecha pasada en String
-        numDay = getWeekNum(startDate);
-
-        int startDay = Integer.valueOf(startDate.split("/")[0]);
-
+        int startDay;
 
         StringBuilder sb = new StringBuilder();
 
@@ -382,69 +432,93 @@ public class FileUtils {
         sb.append("<html> "
                 + "     <head>" +
                 "       </head>"
-                + " <body>"
-                + "     <table border=\"2px\" cellpadding=\"5\">");
-        sb.append("         <tr>" +
-                "               <th colspan='" + colspan + "'>" + monthSelected + "</th> " +
-                "           </tr>" +
+                + " <body>");
 
-                //fila con los nombres de la semana
-                "           <tr>" +
-                "               <th>Semana: " + numDay + "</th><th>" + traductions[0] + "</th><th>" + traductions[1] + "</th><th>" + traductions[2] + "</th><th>" + traductions[3] + "</th><th>" + traductions[4] + "</th><th>" + traductions[5] + "</th><th>" + traductions[6] + "</th>" +
-                "           </tr>");
+        String startDate = monthRequests.get(0).getStartReserve();
 
-        //fila de los numeros del dia
-        sb.append("         <tr>" +
-                "               <th>Day</th>");
-        for (int d = 0; d < 7; d++) {
-            sb.append("<td>" + startDay + "</td>");
-            //mapa para guardar la posicion de cada dia
-            mapDayPos.put(d, startDay);
-            startDay++;
-        }
+        for (int k = 0; k < 4; k++) {
 
-        //System.out.println(startDay);
-        sb.append("</tr>");
-
-        //una vez sumados los dias de la semana, recogemos de nuevo el primer dia de reserva
-        startDay = Integer.valueOf(startDate.split("/")[0]);
-
-        //
-        for (int i = 0; i < 24; i++) {
-
-            sb.append("<tr>" +
-                    "       <th> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h </th>");
-
-            for (int n = 0; n < 7; n++) {
+            //comprobar numero de la semana del comienzo de la reserva
 
 
-                for (int j = 0; j < monthRequests.size(); j++) {
-                    //si la hora
-//                    if (!monthRequests.get(n).getHours().contains("_")) {
-//                        System.out.println(Integer.valueOf(monthRequests.get(n).getHours().split("-")[1]));
-//                    }
-
-                    if (Integer.valueOf(monthRequests.get(j).getHours().split("-")[0]) <= hora1 &&
-                            Integer.valueOf(monthRequests.get(j).getHours().split("-")[1]) >= hora2) {
+            //obtenemos el numero de semana a partir de una fecha pasada en String
+            weekNum = getWeekNum(startDate);
 
 
-                        System.out.println("CABRON" + j);
-                        sb.append("<td>" + monthRequests.get(j).getName() + "</td>");
-                    } else {
-                        sb.append("<td></td>");
-                    }
-                }
+            sb.append("     <table border=\"2px\" cellpadding=\"5\">");
+            sb.append("         <tr>" +
+                    "               <th colspan='" + colspan + "'>" + monthSelected + "</th> " +
+                    "           </tr>" +
 
+                    //fila con los nombres de la semana
+                    "           <tr>" +
+                    "               <th>Semana: " + weekNum + "</th><th>" + traductions[0] + "</th><th>" + traductions[1] + "</th><th>" + traductions[2] + "</th><th>" + traductions[3] + "</th><th>" + traductions[4] + "</th><th>" + traductions[5] + "</th><th>" + traductions[6] + "</th>" +
+                    "           </tr>");
+
+            //fila de los numeros del dia
+            sb.append("         <tr>" +
+                    "               <th>Day</th>");
+            for (int d = 0; d < 7; d++) {
+
+                startDay = Integer.valueOf(startDate.split("/")[0]);
+
+                sb.append("<td>" + startDay + "</td>");
+                //mapa para guardar la posicion de cada dia
+                mapDayPos.put(d, startDay);
+                startDate = getNextDay(startDate);
             }
 
-
+            //System.out.println(startDay);
             sb.append("</tr>");
-            hora1++;
-            hora2++;
+
+            //una vez sumados los dias de la semana, recogemos de nuevo el primer dia de reserva
+            startDay = Integer.valueOf(startDate.split("/")[0]);
+
+            //
+            for (int i = 0; i < 24; i++) {
+
+                sb.append("<tr>" +
+                        "       <th> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h </th>");
+
+                for (int n = 0; n < 7; n++) {
+                    //con n tenemos el dia de la semana que es
+
+                    for (int j = 0; j < monthRequests.size(); j++) {
+
+                        String[] horas = new String[0];
+
+                        //si la hora
+
+                        // System.out.println(Integer.valueOf(monthRequests.get(n).getHours().split("_")[1]));
+
+                        // horas = monthRequests.get(n).getHours().split("_");
+
+                        //System.out.println("CABRONAZO LAS HORAS: " + horas.toString());
+
+
+//                        if (Integer.valueOf(monthRequests.get(j).getHours().split("-")[0]) <= hora1 &&
+//                                //Integer.valueOf(monthRequests.get(j).getHours().split("-")[1]) >= hora2) {
+//
+//
+//                            System.out.println("CABRON" + j);
+//                            sb.append("<td>" + monthRequests.get(j).getName() + "</td>");
+//                        } else {
+//                            sb.append("<td></td>");
+//                        }
+                    }
+
+                }
+
+
+                sb.append("</tr>");
+                hora1++;
+                hora2++;
+                if (hora1 > 23 && hora2 > 24){ hora1 = 0; hora2 = 1; }
+            }
+
+            sb.append("</table>");
         }
 
-
-        sb.append("</table>");
         sb.append("</body>"
                 + "</html>");
 
