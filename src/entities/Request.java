@@ -32,7 +32,8 @@ public class Request {
         this.hours = hours;
     }
 
-    public Request(String[] list){
+
+    public Request(String[] list) {
         //estado de la sala
         this.name = list[0];
         //numero de sala
@@ -48,19 +49,22 @@ public class Request {
     }
 
     //variable para comprobar si la hora tiene dos ohrarios o no
-    private List<String> checkHours(String hour){
+    private List<String> checkHours(String hour) {
 
         String[] horas;
         List<String> listHoras = new ArrayList<>();
 
-        if(!hour.contains("_")){
+        if (hour.contains("_")) {
             horas = hour.split("_");
 
-            listHoras.addAll(Arrays.asList(horas));
-        }else{
+            listHoras.add(horas[0]);
+            listHoras.add(horas[1]);
+
+        } else {
             listHoras.add(hour);
         }
 
+        for (String s : listHoras) System.out.println("somos las horas " + s);
 
         return listHoras;
     }
