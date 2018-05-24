@@ -357,7 +357,7 @@ public class FileUtils {
 
             System.out.println(file.getCanonicalPath());
 
-            writer = new BufferedWriter(new FileWriter(file + ".html"));
+            writer = new BufferedWriter(new FileWriter(file + ".html", true));
 
             writer.write(html);
 
@@ -440,15 +440,17 @@ public class FileUtils {
         StringBuilder sb = new StringBuilder();
 
         for (String sala : nombreSalas) {
-            requestBySala = getRequestBySala(sala);
 
+            requestBySala = getRequestBySala(sala);
+            //requestBySala = monthRequest;
+            sb.setLength(0);
 
             sb.append("<html> "
                     + "     <head>" +
                     "       </head>"
                     + " <body>");
 
-            String startDate = getMonthDate(monthRequest.get(0), monthSelected);
+            String startDate = getMonthDate(requestBySala.get(0), monthSelected);
 
 
             for (int k = 0; k < 4; k++) {
@@ -475,6 +477,7 @@ public class FileUtils {
                 //fila de los numeros del dia
                 sb.append("         <tr>" +
                         "               <th>Day</th>");
+
                 for (int d = 0; d < 7; d++) {
 
                     startDay = Integer.valueOf(startDate.split("/")[0]);
@@ -501,7 +504,6 @@ public class FileUtils {
 
                     //con n tenemos el dia de la semana que es
 
-                    int cont = 0;
                     boolean isBusy;
 
                     for (int n = 0; n < 7; n++) {
@@ -523,41 +525,15 @@ public class FileUtils {
                             if (numOfRequestedDays.contains(n) && hora1 >= horaInicio && hora1 < horaFinal && hora2 > horaInicio && hora2 <= horaFinal) {
 
                                 if (!isBusy) {
-                                    sb.append("<td>" + request.getName() + "</td>");
+                                    //System.out.println(request.toString());
+                                    sb.append("<td>" + request.getLobby() + "</td>");
                                     isBusy = true;
-                                    if (request.getHours().size() > 2) request.getHours().remove(0);
+
+                                    //if (request.getHours().size() > 2) request.getHours().remove(0);
                                 }
-
-
-//                            if (request.getHours().size() > 1) monthRequests.remove(request);
-//                            else {
-//                            monthRequests.remove(request);
-//                                request.getHours().remove(0);
-//                            }
-
                             }
 
-                            cont++;
 
-
-                            //si la hora
-
-                            // System.out.println(Integer.valueOf(monthRequests.get(n).getHours().split("_")[1]));
-
-                            // horas = monthRequests.get(n).getHours().split("_");
-
-                            //System.out.println("CABRONAZO LAS HORAS: " + horas.toString());
-
-
-//                        if (Integer.valueOf(monthRequests.get(j).getHours().split("-")[0]) <= hora1 &&
-//                                //Integer.valueOf(monthRequests.get(j).getHours().split("-")[1]) >= hora2) {
-//
-//
-//                            System.out.println("CABRON" + j);
-//                            sb.append("<td>" + monthRequests.get(j).getName() + "</td>");
-//                        } else {
-//                            sb.append("<td></td>");
-//                        }
                         }
 
                         if (!isBusy) {
@@ -581,16 +557,18 @@ public class FileUtils {
             sb.append("</body>"
                     + "</html>");
 
+            System.out.println("Nombre de la sala: " + sala);
             writeHtmlInFile(sb.toString(), sala);
-
+            //nombreSalas.remove(sala);
         }
     }
 
     private List<Request> getRequestBySala(String salaAux) {
+
         List<Request> lista = new ArrayList<>();
 
         for (Request re : monthRequest) {
-            if (salaAux.equals(re.getLobby())) {
+            if (re.getLobby().equals(salaAux)) {
                 lista.add(re);
             }
         }
@@ -609,7 +587,6 @@ public class FileUtils {
         System.out.println(dayChar);
 
         char[] days = requestDaysMuestra[0].toCharArray();
-
 
         for (int a = 0; a < days.length; a++) {
 
