@@ -18,19 +18,6 @@ public class Request {
 
     //array list para guardar peticiones
     private List<Request> requestList = new ArrayList<>();
-    private Request request;
-
-    public Request() {
-    }
-
-    public Request(String name, String lobby, String startReserve, String endReserve, String days, List<String> hours) {
-        this.name = name;
-        this.lobby = lobby;
-        this.startReserve = startReserve;
-        this.endReserve = endReserve;
-        this.days = days;
-        this.hours = hours;
-    }
 
 
     public Request(String[] list) {
@@ -67,29 +54,6 @@ public class Request {
         for (String s : listHoras) System.out.println("somos las horas " + s);
 
         return listHoras;
-    }
-
-    public Request saveRequestFromFileAndReturnListRequest(List<String> listRequest) {
-
-        request = new Request();
-        //estado de la sala
-        name = listRequest.get(0);
-        //numero de sala
-        lobby = listRequest.get(1);
-        //fecha entrada
-        startReserve = listRequest.get(2);
-        //fecha salida
-        endReserve = listRequest.get(3);
-        //dias
-        days = listRequest.get(4);
-        //horas
-        //hours = listRequest.get(5);
-
-        request = new Request(name, lobby, startReserve, endReserve, days, hours);
-
-        requestList.add(request);
-
-        return request;
     }
 
 

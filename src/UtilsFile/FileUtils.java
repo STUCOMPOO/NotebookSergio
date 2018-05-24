@@ -6,7 +6,6 @@
 package UtilsFile;
 
 import entities.Request;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.*;
 import java.text.ParseException;
@@ -24,9 +23,9 @@ public class FileUtils {
     private String currentLine;
     private String[] arrayString = null;
     private Map<String, String[]> traductions;          //traducciones
-    private String languageAux, yearAux, monthAux;
-    private String[] months;
-    private Request request;
+    //    private String languageAux, yearAux, monthAux;
+//    private String[] months;
+//    private Request request;
     private List<Request> requestList = new ArrayList<>();
     private List<Request> monthRequest = new ArrayList<>();
     private Set<String> nombreSalas = new HashSet<>();
@@ -74,25 +73,27 @@ public class FileUtils {
 
             stringList.addAll(Arrays.asList(arrayString)); //System.out.println(arrayString.length);
         }
-
-        //si el archivo pasado es config
-        if (filePath.endsWith(FILE_PATH_CONFIG)) {
-//comprobacion para ver si se han añadido correctamente los valores
-            for (int i = 0; i < stringList.size(); i++) {
-
-                System.out.println(stringList.get(i));
-                //guardamos el mes y año que se indican en el archivo de peticions
-                if (i == 0) yearAux = stringList.get(i);
-                if (i == 1) monthAux = stringList.get(i);
-                //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
-                if (i == 3) languageAux = stringList.get(i);
-            }
-
-            System.out.println("config");
-
-
-            //si el archivo pasado es el de peticiones
-        } else if (filePath.equals(FILE_PATH_PETICIONES)) {
+//
+//        //si el archivo pasado es config
+//        if (filePath.endsWith(FILE_PATH_CONFIG)) {
+////comprobacion para ver si se han añadido correctamente los valores
+//            for (int i = 0; i < stringList.size(); i++) {
+//
+//                System.out.println(stringList.get(i));
+//                //guardamos el mes y año que se indican en el archivo de peticions
+//                if (i == 0) yearAux = stringList.get(i);
+//                if (i == 1) monthAux = stringList.get(i);
+//                //guardamos el idioma de salida en una variable auxiliar para obtener el fichero internacional correcto
+//                if (i == 3) languageAux = stringList.get(i);
+//            }
+//
+//            System.out.println("config");
+//
+//
+//            //si el archivo pasado es el de peticiones
+//        } else
+//
+        if (filePath.equals(FILE_PATH_PETICIONES)) {
 
             for (int i = 0; i < stringList.size(); i++) {
                 System.out.println(stringList.get(i));
@@ -108,10 +109,10 @@ public class FileUtils {
 
     }
 
-    public Set<String> getNombreSalas(List<Request> peticionesList) {
+    public Set<String> getNombreSalas() {
 
         //guardamos los nombres de las salas de las peticiones selccionadas
-        for (Request r : peticionesList) {
+        for (Request r : monthRequest) {
             nombreSalas.add(r.getLobby());
         }
 
@@ -121,7 +122,7 @@ public class FileUtils {
     }
 
     //funcion para obtener las peticiones que coinciden con el mes y año pedido en el archivo config
-    public List<Request> matchConfigWithRequest(List<Request> list, int month, int year) {
+    public void matchConfigWithRequest(List<Request> list, int month, int year) {
 
         //a la funcion le pasamos una lista con los objetos que representan una peticion cada uno
         for (Request r : list) {
@@ -151,7 +152,6 @@ public class FileUtils {
 
         System.out.println("Capacidad monthRequestList: " + monthRequest.size());
 
-        return monthRequest;
     }
 
     public List<Request> getRequestList() {
@@ -291,75 +291,75 @@ public class FileUtils {
         }
     }
 
-    /*public void mascaraDias(List<Request> listMonthRequest) {
-
-        File incidencies = new File("incidencies.txt");
-
-        Calendar calendar = Calendar.getInstance();
-
-        try {
-
-            String[] days;
-
-            writer = new BufferedWriter(new FileWriter(incidencies, true));
-
-
-            for (Request r : listMonthRequest) {
-
-                if (r.hours.contains("_")) {
-                    days = r.hours.split("_");
-
-
-                } else {
-                    //Completar String de error con nombre, dia, horainicio, horafin, y mensaje de error.
-                    days = r.hours.split("-");
-                    int horainicio = Integer.parseInt(days[0]);
-                    int horafinal = Integer.parseInt(days[1]);
-
-                    String horas = "(" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ")" + horainicio + "-" + horafinal + " (¡¡No Válido, mínimo una hora de diferencia!!) ";
-
-
-                    if (horafinal - horainicio == 0) {
-
-                        if (incidencies.exists()) {
-                            writer.write(horas);
-                            writer.newLine();
-
-                        }
-
-                    }
-                }
-
-            }
-
-        } catch (IOException e) {
-
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException ignored) {
-
-            }
-        }
-
-
-    }*/
+//    public void mascaraDias(List<Request> listMonthRequest) {
+//
+//        File incidencies = new File("incidencies.txt");
+//
+//        Calendar calendar = Calendar.getInstance();
+//
+//        try {
+//
+//            String[] days;
+//
+//            writer = new BufferedWriter(new FileWriter(incidencies, true));
+//
+//
+//            for (Request r : listMonthRequest) {
+//
+//                if (r.hours.contains("_")) {
+//                    days = r.hours.split("_");
+//
+//
+//                } else {
+//                    //Completar String de error con nombre, dia, horainicio, horafin, y mensaje de error.
+//                    days = r.hours.split("-");
+//                    int horainicio = Integer.parseInt(days[0]);
+//                    int horafinal = Integer.parseInt(days[1]);
+//
+//                    String horas = "(" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ")" + horainicio + "-" + horafinal + " (¡¡No Válido, mínimo una hora de diferencia!!) ";
+//
+//
+//                    if (horafinal - horainicio == 0) {
+//
+//                        if (incidencies.exists()) {
+//                            writer.write(horas);
+//                            writer.newLine();
+//
+//                        }
+//
+//                    }
+//                }
+//
+//            }
+//
+//        } catch (IOException e) {
+//
+//        } finally {
+//            try {
+//                writer.close();
+//            } catch (IOException ignored) {
+//
+//            }
+//        }
+//
+//
+//    }
 
     //String... quiere decir que podemos pasarle tantos String como queramos
-    public void writeHtmlInFile(String html, String nameLoby) {
+    public void createFileByExt(String text, String fileName, String extension) {
 
         //archivo que sera generado
         File file;
 
         try {
 
-            file = new File(nameLoby);
+            file = new File(fileName);
 
             System.out.println(file.getCanonicalPath());
 
-            writer = new BufferedWriter(new FileWriter(file + ".html", true));
+            writer = new BufferedWriter(new FileWriter(file + extension));
 
-            writer.write(html);
+            writer.write(text);
 
         } catch (IOException ignored) {
 
@@ -433,19 +433,21 @@ public class FileUtils {
 
         String[] traductions = (String[]) translatedDays.get("002");
 
-        int startDay, mesAux = 0;
+        int startDay;
 
         List<Request> requestBySala;
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilderHTML = new StringBuilder();
+        StringBuilder stringBuilderIncidencies = new StringBuilder();
 
-        for (String sala : nombreSalas) {
+        for (String sala : getNombreSalas()) {
 
             requestBySala = getRequestBySala(sala);
             //requestBySala = monthRequest;
-            sb.setLength(0);
+            //vaciamos el stringbuilder cuando volvemos a escribir para no escrbir en el siguiente archivo all lo que habia
+            stringBuilderHTML.setLength(0);
 
-            sb.append("<html> "
+            stringBuilderHTML.append("<html> "
                     + "     <head>" +
                     "       </head>"
                     + " <body>");
@@ -455,18 +457,13 @@ public class FileUtils {
 
             for (int k = 0; k < 4; k++) {
 
-                //comprobar numero de la semana del comienzo de la reserva
-
-
                 //obtenemos el numero de semana a partir de una fecha pasada en String
                 weekNum = getWeekNum(startDate);
 
-                //si el mes cambia cambiamos el nombre del mes
-                if (monthSelected != mesAux && mesAux != 0) monthSelected = mesAux;
 
-                sb.append("     <table border=\"2px\" cellpadding=\"5\">");
-                sb.append("         <tr>" +
-                        "               <th colspan='" + colspan + "'>" + getMonthByNum(monthSelected) + "</th> " +
+                stringBuilderHTML.append("     <table border=\"2px\" cellpadding=\"5\">");
+                stringBuilderHTML.append("         <tr>" +
+                        "               <th colspan='" + colspan + "'>" + getMonthByNum(monthSelected) + ": " + sala + "</th> " +
                         "           </tr>" +
 
                         //fila con los nombres de la semana
@@ -475,30 +472,27 @@ public class FileUtils {
                         "           </tr>");
 
                 //fila de los numeros del dia
-                sb.append("         <tr>" +
+                stringBuilderHTML.append("         <tr>" +
                         "               <th>Day</th>");
 
                 for (int d = 0; d < 7; d++) {
 
                     startDay = Integer.valueOf(startDate.split("/")[0]);
 
-                    mesAux = Integer.valueOf(startDate.split("/")[1]);
+                    stringBuilderHTML.append("<td>" + startDay + "</td>");
 
-                    sb.append("<td>" + startDay + "</td>");
-                    //mapa para guardar la posicion de cada dia
-                    //mapDayPos.put(d, startDay);
 
                     //cuando el bucle finalice startDate ser igual a la ultima fecha de la semana
                     startDate = getNextDay(startDate);
                 }
 
                 //System.out.println(startDay);
-                sb.append("</tr>");
+                stringBuilderHTML.append("</tr>");
 
 
                 for (int i = 0; i < 24; i++) {
 
-                    sb.append("<tr>" +
+                    stringBuilderHTML.append("<tr>" +
                             "       <th> " + String.format("%02d", hora1) + " - " + String.format("%02d", hora2) + " h </th>");
 
 
@@ -524,12 +518,20 @@ public class FileUtils {
 
                             if (numOfRequestedDays.contains(n) && hora1 >= horaInicio && hora1 < horaFinal && hora2 > horaInicio && hora2 <= horaFinal) {
 
+                                //aqui detectamos si el dia esta ocupado por lo tanto podemos grabar en el archivo de incidencies
                                 if (!isBusy) {
                                     //System.out.println(request.toString());
-                                    sb.append("<td>" + request.getLobby() + "</td>");
+                                    stringBuilderHTML.append("<td>" + request.getName() + "</td>");
                                     isBusy = true;
 
-                                    //if (request.getHours().size() > 2) request.getHours().remove(0);
+//                                    if (request.getHours().size() == 2){
+//                                        request.getHours().remove(0);
+//                                    }
+
+                                }else{
+                                    //grabamos en incidencias que la sala esta ocupada
+                                    String incidenciaOcupado = "La " + sala + " est";
+
                                 }
                             }
 
@@ -537,12 +539,12 @@ public class FileUtils {
                         }
 
                         if (!isBusy) {
-                            sb.append("<td></td>");
+                            stringBuilderHTML.append("<td></td>");
                         }
 
                     }
 
-                    sb.append("</tr>");
+                    stringBuilderHTML.append("</tr>");
                     hora1++;
                     hora2++;
                     if (hora1 > 23 && hora2 > 24) {
@@ -551,14 +553,14 @@ public class FileUtils {
                     }
                 }
 
-                sb.append("</table>");
+                stringBuilderHTML.append("</table>");
             }
 
-            sb.append("</body>"
+            stringBuilderHTML.append("</body>"
                     + "</html>");
 
             System.out.println("Nombre de la sala: " + sala);
-            writeHtmlInFile(sb.toString(), sala);
+            createFileByExt(stringBuilderHTML.toString(), sala, ".html");
             //nombreSalas.remove(sala);
         }
     }

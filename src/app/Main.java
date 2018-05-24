@@ -29,7 +29,6 @@ public class Main {
         FileUtils fileUtils = new FileUtils();
         File file;
         Map<String, String[]> traducciones;
-        String monthSelected;
 
 
         //en primer lugar obtenemos los valores del archivo config.txt
@@ -44,26 +43,13 @@ public class Main {
         //obtenemos las traducciones
         traducciones = fileUtils.getTraductionsFromFile(file);
 
-        //obtenemos el nombre del mes correspondientes
-//        monthSelected = fileUtils.getMonthByNum(config.getMonth());
-
-        //System.out.println(monthSelected);
-
         //obtenemos un array list con todas las peticiones del archivo peticions.txt
         requestList = fileUtils.readFileByPath(FILE_PATH_PETICIONES);
 
 
-        //mostramos todos los nombres de las salas para comprobar que se han añadido correctamente
-//        for (Request r : (List<Request>) requestList) {
-//            System.out.println(r.getLobby());
-//        }
+        //funcion para relacionar el mes pedido en el archivo config con las peticiones que esten en ese mes del archivo de peticions
+        fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
 
-        //obtenemos un array con los meses que coinciden
-        List<Request> mesesList = fileUtils.matchConfigWithRequest(requestList, config.getMonth(), config.getYear());
-
-        Set<String> setSalas = fileUtils.getNombreSalas(mesesList);
-
-        //fileUtils.mascaraDias(requestList);
 
         fileUtils.generateHtml(traducciones, config.getMonth());
 
