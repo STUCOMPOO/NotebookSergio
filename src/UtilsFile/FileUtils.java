@@ -31,9 +31,9 @@ public class FileUtils {
     private Set<String> nombreSalas = new HashSet<>();
 
     //String FILE_PATH_CONFIG = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
-    String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
-    //String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    //String FILE_PATH_CONFIG = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\config.txt";
+    //String FILE_PATH_PETICIONES = "C:\\Users\\sergi\\OneDrive - Stucom, S.A\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
+    String FILE_PATH_PETICIONES = "C:\\Users\\alu2015018\\OneDrive - Stucom, S.A(1)\\DAM\\POO y LI\\Practicas\\PracticaGrupal\\peticions.txt";
 
     private Request requestAux;
     private int colspan = 8;
@@ -502,7 +502,7 @@ public class FileUtils {
 
                     for (int n = 0; n < 7; n++) {
 
-                        System.out.println("UNO " + n);
+                        //System.out.println("UNO " + n);
 
                         isBusy = false;
 
@@ -510,7 +510,7 @@ public class FileUtils {
 
                             List<Integer> numOfRequestedDays = getNumberOfDayByLetter(translatedDays, request.getDays());
 
-                            for (Integer g : numOfRequestedDays) System.out.println("2 " + g);
+                            //for (Integer g : numOfRequestedDays) System.out.println("2 " + g);
 
                             int horaInicio = Integer.valueOf(request.getHours().get(0).split("-")[0]),
                                     horaFinal = Integer.valueOf(request.getHours().get(0).split("-")[1]);
